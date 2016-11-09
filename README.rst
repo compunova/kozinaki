@@ -10,10 +10,9 @@ Kozinaki is intended to be completely pluggable into OpenStack architecture with
 Support
 ========
 
-We are glad to offer you support on the best effort basis via kozinaki@compu-nova.com and Skype @ compu-nova
+We are glad to offer support on the best effort basis via kozinaki@compu-nova.com and Skype @ compu-nova, in return we will ask you to register your installation using a form on http://www.compu-nova.com/kozinaki.
 
 ========
 Deployment and Operations
 ========
-Please see [Wiki](https://github.com/compunova/kozinaki/wiki/documentation)
-This site was built using [GitHub Pages](https://pages.github.com/).
+Please see https://github.com/compunova/kozinaki/wiki/documentation
