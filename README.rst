@@ -6,13 +6,13 @@ Kozinaki is an OpenStack multi-cloud driver which aims to enable full lifecycle 
 
 Kozinaki is intended to be completely pluggable into OpenStack architecture without changing the code of core OpenStack components. The driver has modular architecture which makes adding new cloud providers fairly easy. Kozinaki architecture relies on provider developed SDKs to interface with their APIs, where it is not feasible we are open to evaluate the use of libcloud.
 
-========
+=======
 Support
-========
+=======
 
 We are glad to offer support on the best effort basis via kozinaki@compu-nova.com and Skype @ compu-nova, in return we will ask you to register your installation using a form on http://www.compu-nova.com/kozinaki.
 
-========
+=========================
 Deployment and Operations
-========
+=========================
 Please see https://github.com/compunova/kozinaki/wiki

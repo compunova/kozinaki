@@ -1,12 +1,18 @@
 from setuptools import setup, find_packages
 
+
+def readme():
+    with open('README.rst') as f:
+        return f.read()
+
 setup(
     name='Kozinaki',
     description='OpenStack multi-cloud driver for AWS, Azure',
     url='https://github.com/compunova/kozinaki.git',
     author='Compunova',
     author_email='kozinaki@compu-nova.com',
-    version='0.1.1',
+    version='0.1.2',
+    long_description=readme(),
     packages=find_packages(),
     install_requires=[
         'haikunator==2.1.0',
