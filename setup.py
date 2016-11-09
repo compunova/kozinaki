@@ -1,9 +1,11 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='kozinaki',
-    description='OpenStack nova driver for cloud providers',
+    name='Kozinaki',
+    description='OpenStack multi-cloud driver for AWS, Azure',
     url='https://github.com/compunova/kozinaki.git',
+    author='Compunova',
+    author_email='kozinaki@compu-nova.com',
     version='0.1',
     packages=find_packages(),
     install_requires=[
