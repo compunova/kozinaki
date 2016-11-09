@@ -6,7 +6,7 @@ setup(
     url='https://github.com/compunova/kozinaki.git',
     author='Compunova',
     author_email='kozinaki@compu-nova.com',
-    version='0.1',
+    version='0.1.1',
     packages=find_packages(),
     install_requires=[
         'haikunator==2.1.0',
