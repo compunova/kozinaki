@@ -15,4 +15,4 @@ We are glad to offer support on the best effort basis via kozinaki@compu-nova.co
 ========
 Deployment and Operations
 ========
-Please see https://github.com/compunova/kozinaki/wiki/documentation
+Please see https://github.com/compunova/kozinaki/wiki
