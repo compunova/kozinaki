@@ -16,3 +16,4 @@ We are glad to offer you support on the best effort basis via kozinaki@compu-nov
 Deployment and Operations
 ========
 Please see [Wiki](https://github.com/compunova/kozinaki/wiki/documentation)
+This site was built using [GitHub Pages](https://pages.github.com/).
