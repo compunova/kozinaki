@@ -15,7 +15,6 @@
 Kozinaki hybrid cloud Nova compute driver
 """
 
-import pdb
 import time
 
 from oslo_config import cfg
@@ -30,11 +29,6 @@ from nova.virt import driver
 from nova.virt.hardware import InstanceInfo
 from network import FlatManager
 from oslo_service import loopingcall
-# from libcloud.compute.base import NodeImage
-# from libcloud.compute.base import NodeState
-# from libcloud.compute.providers import get_driver
-# from libcloud.compute.base import NodeAuthPassword
-# from libcloud.compute.types import Provider as provider_obj
 from netaddr import IPAddress, IPNetwork
 
 from .utils import timeout_call
@@ -87,13 +81,7 @@ AZURE_POWER_STATE = {
 }
 
 
-# TODO: use self.conn only in _get_local_instance_conn
 class KozinakiDriver(driver.ComputeDriver):
-    # TODO: What are these capabiities and how are they set?
-    capabilities = {
-        "has_imagecache": True,
-        "supports_recreate": True,
-    }
 
     def __init__(self, virtapi, read_only=False):
 
@@ -538,8 +526,8 @@ class KozinakiDriver(driver.ComputeDriver):
                          hold the snapshot.
         """
 
-        # TODO: check if node already stopped and do not do anything with it, just change the power_state
-        self._do_provider_instance_action('create-image', instance)
+        provider = self._get_instance_provider(instance)
+        provider.snapshot(context, instance, image_id, update_task_state)
 
     def post_interrupted_snapshot_cleanup(self, context, instance):
         """Cleans up any resources left after an interrupted snapshot.
@@ -570,28 +558,17 @@ class KozinakiDriver(driver.ComputeDriver):
                          otherwise
         """
 
-        if resize_instance:
-            flavor = flavors.extract_flavor(instance)
-
-            provider_name = self._get_local_instance_meta(instance, 'provider_name')
-            provider_region = self._get_local_instance_meta(instance, 'provider_region')
-
-            sizes = get_provider_by_name(provider_name).list_sizes()
-            new_provider_size = [s for s in sizes if s.id == flavor['name']][0]
-
-            self._do_provider_instance_action('stop', instance)
-            self._do_provider_instance_action('resize', instance, new_size=new_provider_size)
-
-        if power_on:
-            self._do_provider_instance_action('start', instance)
-            # self.power_on(context, instance, network_info, block_device_info)
+        provider = self._get_instance_provider(instance)
+        provider.finish_migration(context, migration, instance, disk_info, network_info, image_meta, resize_instance,
+                                  block_device_info, power_on)
 
     def confirm_migration(self, migration, instance, network_info):
         """Confirms a resize, destroying the source VM.
 
         :param instance: nova.objects.instance.Instance
         """
-        return NotImplementedError()
+        provider = self._get_instance_provider(instance)
+        provider.confirm_migration(migration, instance, network_info)
 
     def finish_revert_migration(self, context, instance, network_info,
                                 block_device_info=None, power_on=True):

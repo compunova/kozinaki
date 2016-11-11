@@ -99,3 +99,40 @@ class BaseProvider:
                       encryption=None):
         """Detach the disk attached to the instance."""
         raise NotImplementedError()
+
+    def snapshot(self, context, instance, image_id, update_task_state):
+        """Snapshots the specified instance.
+
+        :param context: security context
+        :param instance: nova.objects.instance.Instance
+        :param image_id: Reference to a pre-created image that will hold the snapshot.
+        """
+        raise NotImplementedError()
+
+    def finish_migration(self, context, migration, instance, disk_info, network_info, image_meta, resize_instance,
+                         block_device_info=None, power_on=True):
+        """Completes a resize.
+
+        :param context: the context for the migration/resize
+        :param migration: the migrate/resize information
+        :param instance: nova.objects.instance.Instance being migrated/resized
+        :param disk_info: the newly transferred disk information
+        :param network_info:
+           :py:meth:`~nova.network.manager.NetworkManager.get_instance_nw_info`
+        :param image_meta: image object returned by nova.image.glance that
+                           defines the image from which this instance
+                           was created
+        :param resize_instance: True if the instance is being resized,
+                                False otherwise
+        :param block_device_info: instance volume block device info
+        :param power_on: True if the instance should be powered on, False
+                         otherwise
+        """
+        raise NotImplementedError()
+
+    def confirm_migration(self, migration, instance, network_info):
+        """Confirms a resize, destroying the source VM.
+
+        :param instance: nova.objects.instance.Instance
+        """
+        raise NotImplementedError()
