@@ -29,11 +29,11 @@ from nova.virt import driver
 from nova.virt.hardware import InstanceInfo
 from network import FlatManager
 from oslo_service import loopingcall
-from netaddr import IPAddress, IPNetwork
+from netaddr import IPAddress
 
 from .utils import timeout_call
 from .exceptions import KozinakiException
-from providers import get_provider_by_name
+from .providers import get_provider_by_name
 
 LOG = logging.getLogger(__name__)
 _LOG = "\n\n### {} ###\n\n"
