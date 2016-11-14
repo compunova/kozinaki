@@ -18,7 +18,7 @@ import boto3
 from haikunator import Haikunator
 from oslo_config import cfg
 from nova.image import glance
-from nova.openstack.common import loopingcall
+from oslo_service import loopingcall
 from nova.compute import power_state, task_states
 
 from .config import volume_map, flavor_map
