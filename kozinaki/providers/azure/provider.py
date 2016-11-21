@@ -11,18 +11,26 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+import base64
+import logging
+
 from oslo_config import cfg
 from haikunator import Haikunator
-from nova.compute import power_state
+from nova.image import glance
+from nova.compute import power_state, task_states
 from azure.mgmt.compute import ComputeManagementClient
 from azure.mgmt.storage import StorageManagementClient
 from azure.mgmt.network import NetworkManagementClient
 from azure.mgmt.resource import ResourceManagementClient
 from azure.common.credentials import ServicePrincipalCredentials
-from azure.servicemanagement import ServiceManagementService
+from azure.servicemanagement import ServiceManagementService, CaptureRoleAsVMImage
 from msrestazure.azure_exceptions import CloudError, CloudErrorData
 
 from ..common import BaseProvider
+
+
+LOG = logging.getLogger(__name__)
 
 
 haikunator = Haikunator()
@@ -62,6 +70,7 @@ class AzureProvider(BaseProvider):
         super(AzureProvider, self).__init__()
         self.name = 'AZURE'
         self.config_name = 'kozinaki_' + self.name
+        self._mounts = {}
 
     @staticmethod
     def get_management_service(service, config):
@@ -110,6 +119,8 @@ class AzureProvider(BaseProvider):
             cfg.StrOpt('subnet_name', help='Azure default subnet name'),
             cfg.StrOpt('ip_config_name', help='Azure default ip config name'),
             cfg.StrOpt('nic_name', help='Azure default nic name'),
+            cfg.StrOpt('cloud_service_name', help='Azure default cloud service name'),
+            cfg.StrOpt('deployment_name', help='Azure default deployment name'),
         ]
 
         cfg.CONF.register_opts(provider_opts, self.config_name)
@@ -126,6 +137,7 @@ class AzureProvider(BaseProvider):
         return list(sms.list_role_sizes())
 
     def create_node(self, instance, image_meta, *args, **kwargs):
+        LOG.info("***** Calling CREATE NODE *******************")
         config = self.load_config()
 
         # Get info
@@ -147,6 +159,7 @@ class AzureProvider(BaseProvider):
         network = self._get_or_create_vnet(config=config)
         subnet_info = self._get_or_create_subnet(config=config)
         nic = self._get_or_create_nic(subnet_info=subnet_info, config=config)
+        storage_account = self._get_or_create_storage_account(config=config)
 
         vm_parameters = self._create_vm_parameters(
             vm_name=node_name,
@@ -161,6 +174,7 @@ class AzureProvider(BaseProvider):
             node_name,
             vm_parameters
         )
+        LOG.info("CREATE NODE result: {}".format(async_vm_creation))
 
     def _create_vm_parameters(self, vm_name, vm_size, nic_id, vm_reference, config=None):
         """Create the VM parameters structure"""
@@ -200,6 +214,7 @@ class AzureProvider(BaseProvider):
         }
 
     def _get_or_create_nic(self, subnet_info, config=None):
+        LOG.info("***** Calling _get_or_create_nic *******************")
         config = config or self.load_config()
 
         network_client = self.get_management_service(NetworkManagementClient, config=config)
@@ -223,9 +238,25 @@ class AzureProvider(BaseProvider):
                     }]
                 }
             )
+            async_nic_creation.wait()
             return async_nic_creation.result()
 
+    def _create_cloud_service(self, service_name=None):
+        config = self.load_config()
+
+        azure_sms = self.get_management_service(ServiceManagementService, config=config)
+
+        service_name = service_name or config['cloud_service_name']
+
+        desc = service_name
+        label = service_name
+        location = config['location']
+
+        result = azure_sms.create_hosted_service(service_name, label, desc, location=location)
+        return result
+
     def _get_or_create_subnet(self, config=None):
+        LOG.info("***** Calling _get_or_create_subnet *******************")
         config = config or self.load_config()
 
         network_client = self.get_management_service(NetworkManagementClient, config=config)
@@ -234,8 +265,7 @@ class AzureProvider(BaseProvider):
         try:
             return network_client.subnets.get(config['resource_group_name'], config['vnet_name'], config['subnet_name'])
         except CloudError, error:
-            if not isinstance(error.inner_exception, CloudErrorData) or \
-                            error.inner_exception.error != 'ResourceNotFound':
+            if error.inner_exception.error != 'NotFound':
                 raise error
 
         # Create new one
@@ -249,6 +279,7 @@ class AzureProvider(BaseProvider):
         return async_subnet_creation.result()
 
     def _get_or_create_vnet(self, config=None):
+        LOG.info("***** Calling _get_or_create_vnet *******************")
         config = config or self.load_config()
 
         network_client = self.get_management_service(NetworkManagementClient, config=config)
@@ -275,7 +306,8 @@ class AzureProvider(BaseProvider):
         async_vnet_creation.wait()
         return async_vnet_creation.result()
 
-    def get_or_create_storage_account(self, config=None):
+    def _get_or_create_storage_account(self, config=None):
+        LOG.info("***** Calling get_or_create_storage_account *******************")
         config = config or self.load_config()
 
         storage_client = self.get_management_service(StorageManagementClient, config)
@@ -335,13 +367,13 @@ class AzureProvider(BaseProvider):
         config = self.load_config()
         compute_client = self.get_management_service(ComputeManagementClient, config=config)
 
-        compute_client.virtual_machines.power_off(config['resource_group_name'], instance.uuid)
+        return compute_client.virtual_machines.power_off(config['resource_group_name'], instance.uuid)
 
     def power_on(self, context, instance, network_info, block_device_info=None):
         config = self.load_config()
         compute_client = self.get_management_service(ComputeManagementClient, config=config)
 
-        compute_client.virtual_machines.start(config['resource_group_name'], instance.uuid)
+        return compute_client.virtual_machines.start(config['resource_group_name'], instance.uuid)
 
     def get_info(self, instance):
         node = self._get_node_by_name(instance.uuid)
@@ -369,6 +401,132 @@ class AzureProvider(BaseProvider):
         }
 
         return node_info
+
+    def attach_volume(self, context, connection_info, instance, mountpoint,
+                      disk_bus=None, device_type=None, encryption=None):
+        """Attach the disk to the instance at mountpoint using info."""
+        config = self.load_config()
+
+        azure_sms = self.get_management_service(ServiceManagementService, config=config)
+
+        vm_name = instance['metadata']['vm_name']
+        if vm_name not in self._mounts:
+            self._mounts[vm_name] = {}
+
+        service_name = instance['metadata']['cloud_service_name']
+        lun = azure_sms.get_available_lun(service_name, vm_name)
+        volume_id = connection_info['data']['volume_id']
+
+        azure_sms.attach_volume(service_name, vm_name, 5, lun)
+        self._mounts[vm_name][mountpoint] = connection_info
+
+        instance['metadata'].setdefault('volumes', {})
+        instance['metadata']['volumes'][volume_id] = lun
+
+    def detach_volume(self, connection_info, instance, mountpoint,
+                      encryption=None):
+        """Detach the disk attached to the instance."""
+        config = self.load_config()
+
+        azure_sms = self.get_management_service(ServiceManagementService, config=config)
+
+        vm_name = instance['metadata']['vm_name']
+        service_name = instance['metadata']['cloud_service_name']
+
+        try:
+            del self._mounts[vm_name][mountpoint]
+        except KeyError:
+            pass
+        volume_id = connection_info['data']['volume_id']
+        lun = instance['metadata']['volumes'][volume_id]
+
+        azure_sms.detach_volume(service_name, vm_name, lun)
+
+        del instance['metadata']['volumes'][volume_id]
+
+    def snapshot(self, context, instance, image_id, update_task_state):
+        """Snapshots the specified instance.
+        :param context: security context
+        :param instance: nova.objects.instance.Instance
+        :param image_id: Reference to a pre-created image that will
+                         hold the snapshot.
+        """
+        return
+        config = self.load_config()
+
+        azure_sms = self.get_management_service(ServiceManagementService, config=config)
+
+        # Power off vm
+        result = self.power_off(instance=instance)
+        result.wait()
+
+        hosted_service_name = 'compunovacloud'
+        deployment_name = 'dep1'
+        vm_name = 'vm1'
+        image_name = instance.uuid + 'image'
+
+        image = CaptureRoleAsVMImage('Specialized', image_name, image_name + 'label', image_name + 'description', 'english', 'openstack-virtual-machines')
+
+        result = azure_sms.capture_vm_image(hosted_service_name, deployment_name, vm_name, image)
+
+
+        image_service = glance.get_default_image_service()
+
+        snapshot = image_service.show(context, image_id)
+        LOG.debug("**** Snapshot info--> %s" % snapshot)
+        snapshot_name = haikunator.haikunate()
+        image_url = glance.generate_image_url(image_id)
+        LOG.debug("**** image url--> '%s' ****" % image_url)
+
+        image_metadata = {
+            'is_public': False,
+            'status': 'active',
+            'name': '-'.join(('azure', snapshot_name)),
+            'properties': {
+                'kernel_id': instance['kernel_id'],
+                'image_location': 'snapshot',
+                'image_state': 'available',
+                'ramdisk_id': instance['ramdisk_id'],
+                'owner_id': instance['project_id']
+            }
+        }
+        if instance['os_type']:
+            image_metadata['properties']['os_type'] = instance['os_type']
+
+        update_task_state(task_state=task_states.IMAGE_UPLOADING, expected_state=task_states.IMAGE_SNAPSHOT)
+
+        azure_sms.snapshot(service_name, vm_name, image_id, snapshot_name)
+        image_service.update(context, image_id, image_metadata, "fake image data")
+
+    def finish_migration(self, context, migration, instance, disk_info,
+                         network_info, image_meta, resize_instance,
+                         block_device_info=None, power_on=True):
+        """Completes a resize.
+        :param context: the context for the migration/resize
+        :param migration: the migrate/resize information
+        :param instance: nova.objects.instance.Instance being migrated/resized
+        :param disk_info: the newly transferred disk information
+        :param network_info:
+           :py:meth:`~nova.network.manager.NetworkManager.get_instance_nw_info`
+        :param image_meta: image object returned by nova.image.glance that
+                           defines the image from which this instance
+                           was created
+        :param resize_instance: True if the instance is being resized,
+                                False otherwise
+        :param block_device_info: instance volume block device info
+        :param power_on: True if the instance should be powered on, False
+                         otherwise
+        """
+        # raise NotImplementedError()
+        pass
+
+    def confirm_migration(self, migration, instance, network_info):
+        """Confirms a resize, destroying the source VM.
+        :param instance: nova.objects.instance.Instance
+        """
+        # TODO(Vek): Need to pass context in for access to auth_token
+        # raise NotImplementedError()
+        pass
 
     def list_instances(self):
         return [node.name for node in self.list_nodes()]

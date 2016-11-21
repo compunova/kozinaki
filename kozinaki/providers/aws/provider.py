@@ -15,6 +15,7 @@
 import logging
 
 import boto3
+from botocore.exceptions import BotoCoreError
 from haikunator import Haikunator
 from oslo_config import cfg
 from nova.image import glance
@@ -176,15 +177,16 @@ class AWSProvider(BaseProvider):
         aws_node = self._get_node_by_uuid(instance.uuid)
 
         update_task_state(task_state=task_states.IMAGE_UPLOADING, expected_state=task_states.IMAGE_SNAPSHOT)
-        ec_instance_info = self.driver.get_only_instances(
-            instance_ids=[aws_node.id], filters=None, dry_run=False, max_results=None)
-        ec2_instance = ec_instance_info[0]
-        if ec2_instance.state == 'running':
-            ec2_image_id = ec2_instance.create_image(name=str(
-                image_id), description="Image from OpenStack", no_reboot=False, dry_run=False)
 
+        if aws_node.state['Name'] == 'running':
+            ec2_image = aws_node.create_image(Name=str(image_id),
+                                                 Description="Image from OpenStack", NoReboot=False, DryRun=False)
+        else:
+            # TODO: else case
+            LOG.error('Node state: "{}". Must be "running" for snapshot.'.format(aws_node.state['Name']))
+            return
         # The instance will be in pending state when it comes up, waiting for it to be in available
-        self._wait_for_image_state(ec2_image_id, "available")
+        self._wait_for_image_state(ec2_image, "available")
 
         image_api = glance.get_default_image_service()
         image_ref = glance.generate_image_url(image_id)
@@ -196,39 +198,36 @@ class AWSProvider(BaseProvider):
                         'image_state': 'available',
                         'owner_id': instance['project_id'],
                         'ramdisk_id': instance['ramdisk_id'],
-                        'ec2_image_id': ec2_image_id}
+                        'ec2_image_id': ec2_image.id}
                     }
+        # TODO: HTTPInternalServerError: 500 Internal Server Error:
+        # TODO: The server has either erred or is incapable of performing the requested operation.
         image_api.update(context, image_id, metadata)
 
     def finish_migration(self, context, migration, instance, disk_info, network_info, image_meta, resize_instance,
                          block_device_info=None, power_on=True):
         LOG.info("***** Calling FINISH MIGRATION *******************")
-        ec2_id = instance['metadata']['ec2_id']
-        ec_instance_info = self.driver.get_only_instances(
-            instance_ids=[ec2_id], filters=None, dry_run=False, max_results=None)
-        ec2_instance = ec_instance_info[0]
+
+        aws_node = self._get_node_by_uuid(instance.uuid)
 
         # EC2 instance needs to be stopped to modify it's attribute. So we stop the instance,
         # modify the instance type in this case, and then restart the instance.
-        ec2_instance.stop()
-        self._wait_for_state(instance, ec2_id, "stopped", power_state.SHUTDOWN)
+        aws_node.stop()
+        self._wait_for_state(instance, aws_node, "stopped", power_state.SHUTDOWN)
         new_instance_type = flavor_map[migration['new_instance_type_id']]
-        ec2_instance.modify_attribute('instanceType', new_instance_type)
+        aws_node.modify_attribute('instanceType', new_instance_type)
 
     def confirm_migration(self, migration, instance, network_info):
         LOG.info("***** Calling CONFIRM MIGRATION *******************")
-        ec2_id = instance['metadata']['ec2_id']
-        ec_instance_info = self.driver.get_only_instances(
-            instance_ids=[ec2_id], filters=None, dry_run=False, max_results=None)
-        ec2_instance = ec_instance_info[0]
-        ec2_instance.start()
-        self._wait_for_state(instance, ec2_id, "running", power_state.RUNNING)
+        aws_node = self._get_node_by_uuid(instance.uuid)
+        aws_node.start()
+        self._wait_for_state(instance, aws_node, "running", power_state.RUNNING)
 
     def _get_node_by_uuid(self, uuid):
         aws_nodes = list(self.driver.instances.filter(Filters=[{'Name': 'tag:openstack_server_id', 'Values': [uuid]}]))
         return aws_nodes[0] if aws_nodes else None
 
-    def _wait_for_image_state(self, ami_id, desired_state):
+    def _wait_for_image_state(self, ami, desired_state):
         """Timer to wait for the image/snapshot to reach a desired state
         :params:ami_id: correspoding image id in Amazon
         :params:desired_state: the desired new state of the image to be in.
@@ -237,42 +236,40 @@ class AWSProvider(BaseProvider):
         def _wait_for_state():
             """Called at an interval until the AMI image is available."""
             try:
-                images = self.driver.get_all_images(image_ids=[ami_id], owners=None,
-                                                    executable_by=None, filters=None, dry_run=None)
-                state = images[0].state
                 # LOG.info("\n\n\nImage id = %s" % ami_id + ", state = %s\n\n\n" % state)
-                if state == desired_state:
+                image = self.driver.Image(ami.id)
+                if image.state == desired_state:
                     LOG.info("Image has changed state to %s." % desired_state)
                     raise loopingcall.LoopingCallDone()
-            except boto3.exception.EC2ResponseError:
+                else:
+                    LOG.info("Image state %s." % image.state)
+            except BotoCoreError as e:
+                LOG.info("BotoCoreError: {}".format(e))
                 pass
 
         timer = loopingcall.FixedIntervalLoopingCall(_wait_for_state)
-        timer.start(interval=0.5).wait()
+        timer.start(interval=3).wait()
 
-    def _wait_for_state(self, instance, ec2_id, desired_state, desired_power_state):
+    def _wait_for_state(self, instance, ec2_node, desired_state, desired_power_state):
         """Wait for the state of the corrosponding ec2 instance to be in completely available state.
         :params:ec2_id: the instance's corrosponding ec2 id.
         :params:desired_state: the desired state of the instance to be in.
         """
 
         def _wait_for_power_state():
-            """Called at an interval until the VM is running again.
-            """
-            ec2_instance = self.driver.get_only_instances(instance_ids=[ec2_id])
+            """Called at an interval until the VM is running again."""
 
-            state = ec2_instance[0].state
+            state = ec2_node.state
             if state == desired_state:
                 LOG.info("Instance has changed state to %s." % desired_state)
                 raise loopingcall.LoopingCallDone()
 
         def _wait_for_status_check():
-            """Power state of a machine might be ON, but status check is the one which gives the real
-            """
-            ec2_instance = self.driver.get_all_instance_status(instance_ids=[ec2_id])[0]
-            if ec2_instance.system_status.status == 'ok':
+            """Power state of a machine might be ON, but status check is the one which gives the real"""
+
+            if ec2_node.system_status.status == 'ok':
                 LOG.info("Instance status check is %s / %s" %
-                         (ec2_instance.system_status.status, ec2_instance.instance_status.status))
+                         (ec2_node.system_status.status, ec2_node.instance_status.status))
                 raise loopingcall.LoopingCallDone()
 
         # waiting for the power state to change

@@ -276,7 +276,7 @@ class KozinakiDriver(driver.ComputeDriver):
                 raise loopingcall.LoopingCallDone()
 
         timer = loopingcall.FixedIntervalLoopingCall(_wait_for_boot)
-        timer.start(interval=0.5).wait()
+        timer.start(interval=3).wait()
 
     def destroy(self, context, instance, network_info, block_device_info=None, destroy_disks=True, migrate_data=None):
         """Destroy the specified instance from the Hypervisor.
