@@ -13,6 +13,7 @@
 # limitations under the License.
 from azure.provider import AzureProvider
 from aws.provider import AWSProvider
+from gcp.provider import GCPProvider
 
 
 def get_provider_by_name(provider_name):
@@ -20,6 +21,7 @@ def get_provider_by_name(provider_name):
     providers = {
         'AZURE': AzureProvider,
         'AWS': AWSProvider,
+        'GCP': AWSProvider,
     }
     if provider_name in providers:
         return providers[provider_name]()

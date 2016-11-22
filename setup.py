@@ -17,6 +17,7 @@ setup(
     install_requires=[
         'haikunator==2.1.0',
         'azure==2.0.0rc6',
-        'boto3==1.4.0'
+        'boto3==1.4.0',
+        'google-cloud==0.21.0'
     ]
-    )
+)

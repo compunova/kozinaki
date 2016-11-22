@@ -55,10 +55,10 @@ IMAGE_MAP = {
 }
 
 
-class GoogleProvider(BaseProvider):
+class GCPProvider(BaseProvider):
 
     def __init__(self):
-        super(GoogleProvider, self).__init__()
+        super(GCPProvider, self).__init__()
         self.name = 'GOOGLE'
         self.config_name = 'kozinaki_' + self.name
         self.driver = self.get_driver()
@@ -98,10 +98,14 @@ class GoogleProvider(BaseProvider):
         flavor_name = instance.flavor['name']
 
         # Get the latest image
-        image_response = self.driver.images().getFromFamily(
-            project=IMAGE_MAP[image_family],
-            family=image_family
-        ).execute()
+        for family_startwith, project in IMAGE_MAP.items():
+            if image_family.startswith(family_startwith):
+                image_project = project
+                break
+        else:
+            raise Exception('Project for image family "{}" not found'.format(image_family))
+
+        image_response = self.driver.images().getFromFamily(project=image_project, family=image_family).execute()
         source_disk_image = image_response['selfLink']
 
         # Configure the machine
