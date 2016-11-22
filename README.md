@@ -1,9 +1,11 @@
 # Overview
 
 
-Kozinaki is an OpenStack multi-cloud driver which aims to enable full lifecycle management of resource through OpenStack in public cloud providers (AWS, Azure, with more to come). We beleive that building a multi-cloud driver will open possiblities for true hybrid OpenStack use case and provide the uniformity in access to public clouds resources through versatile community developed OpenStack APIs. This driver gives an option to optimaly choose resources based on performance, price, avilability while preserving time and money investment into work deployment and management be it on prem or cloud resources.
+Kozinaki is an OpenStack hybrid/multi-cloud driver which aims to provide full lifecycle management of public cloud resource (AWS, Azure, GCP) using OpenStack. We beleive Kozinaki will enable true hybrid/multicloud OpenStack use case and provide the uniformity in using public clouds resources through versatile community developed OpenStack APIs and CLI. With Kozinaki you don't have to choose one provider - local or public, but you can pick based on on performance, price, and avilability while preserving time and money investments in skills and tools.
 
-Kozinaki is intended to be completely pluggable into OpenStack architecture without changing the code of core OpenStack components. The driver has modular architecture which makes adding new cloud providers fairly easy. Kozinaki architecture relies on provider developed SDKs to interface with their APIs, where it is not feasible we are open to evaluate the use of libcloud.
+Kozinaki is completely pluggable into OpenStack without requiring any change to the code of core OpenStack components. The driver is modular, so adding new cloud providers is fast. Its architecture relies on provider developed SDKs to interface with APIs.
+
+# Supported functionality
 
 Supported function   | Nova command  | AWS | Azure             | GCP |
 -------------------- | :-----------: | :-: | :---------------: | :-: |
@@ -20,12 +22,10 @@ Add disk             | volume-attach |  +  | in progress       |  +  |
 Remove disk          | volume-detach |  +  | in progress       |  +  |
 
 
-# Support
+# Kozinaki support
 
+We are glad to help with any issues that you have with Kozinaki via kozinaki@compu-nova.com and Skype @ compu-nova.
 
-We are glad to offer support on the best effort basis via kozinaki@compu-nova.com and Skype @ compu-nova, in return we will ask you to register your installation using a form on http://www.compu-nova.com/kozinaki.
-
-
-# Deployment and Operations
+# Documentation
 
 Please see https://github.com/compunova/kozinaki/wiki
