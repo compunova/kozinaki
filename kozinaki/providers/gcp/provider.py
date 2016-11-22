@@ -61,12 +61,14 @@ class GCPProvider(BaseProvider):
         super(GCPProvider, self).__init__()
         self.name = 'GOOGLE'
         self.config_name = 'kozinaki_' + self.name
+        self.vm_prefix = 'kozinaki-'
         self.driver = self.get_driver()
         self._mounts = {}
 
     def get_driver(self):
+        config = self.load_config()
         os.environ.update(
-            {'GOOGLE_APPLICATION_CREDENTIALS': '/Users/aleksandralekseev/Desktop/google-cloud-keyfile.json'})
+            {'GOOGLE_APPLICATION_CREDENTIALS': config['path_to_json_token']})
         credentials = GoogleCredentials.get_application_default()
 
         compute = discovery.build('compute', 'v1', credentials=credentials)
@@ -112,7 +114,7 @@ class GCPProvider(BaseProvider):
         machine_type = "zones/{zone}/machineTypes/{flavor}".format(zone=config['zone'], flavor=flavor_name)
 
         config = {
-            'name': instance.uuid,
+            'name': self.vm_prefix + instance.uuid,
             'machineType': machine_type,
 
             # Specify the boot disk and the image to use as a source.
@@ -156,9 +158,12 @@ class GCPProvider(BaseProvider):
 
     def destroy(self, instance, *args, **kwargs):
         config = self.load_config()
-        operation = self.driver.instances().delete(
-            project=config['project'], zone=config['zone'], instance=instance.uuid).execute()
-        self.wait_for_operation(operation)
+
+        gcp_instance = self._get_gcp_instance(instance, config['project'], config['zone'])
+        if gcp_instance:
+            operation = self.driver.instances().delete(
+                project=config['project'], zone=config['zone'], instance=gcp_instance['name']).execute()
+            self.wait_for_operation(operation)
 
     def list_instances(self):
         config = self.load_config()
@@ -173,7 +178,7 @@ class GCPProvider(BaseProvider):
     def power_on(self, context, instance, network_info, block_device_info=None):
         config = self.load_config()
         operation = self.driver.instances().start(
-            project=config['project'], zone=config['zone'], instance=instance.uuid).execute()
+            project=config['project'], zone=config['zone'], instance=self.vm_prefix + instance.uuid).execute()
         self.wait_for_operation(operation)
 
     def list_instance_uuids(self):
@@ -182,13 +187,13 @@ class GCPProvider(BaseProvider):
     def power_off(self, instance, timeout=0, retry_interval=0):
         config = self.load_config()
         operation = self.driver.instances().stop(
-            project=config['project'], zone=config['zone'], instance=instance.uuid).execute()
+            project=config['project'], zone=config['zone'], instance=self.vm_prefix + instance.uuid).execute()
         self.wait_for_operation(operation)
 
     def get_info(self, instance):
         config = self.load_config()
         instance = self.driver.instances().get(
-            project=config['project'], zone=config['zone'], instance=instance.uuid).execute()
+            project=config['project'], zone=config['zone'], instance=self.vm_prefix + instance.uuid).execute()
 
         if instance:
             node_power_state = POWER_STATE_MAP[instance['status']]
@@ -211,7 +216,7 @@ class GCPProvider(BaseProvider):
     def reboot(self, instance, *args, **kwargs):
         config = self.load_config()
         operation = self.driver.instances().reset(
-            project=config['project'], zone=config['zone'], instance=instance.uuid).execute()
+            project=config['project'], zone=config['zone'], instance=self.vm_prefix + instance.uuid).execute()
         self.wait_for_operation(operation)
 
     def get_or_create_volume(self, project, zone, volume_name):
@@ -238,10 +243,10 @@ class GCPProvider(BaseProvider):
                       disk_bus=None, device_type=None, encryption=None):
         """Attach the disk to the instance at mountpoint using info."""
         config = self.load_config()
-
-        if instance.uuid not in self._mounts:
-            self._mounts[instance.uuid] = {}
-        self._mounts[instance.uuid][mountpoint] = connection_info
+        instance_name = self.vm_prefix + instance.uuid
+        if instance_name not in self._mounts:
+            self._mounts[instance_name] = {}
+        self._mounts[instance_name][mountpoint] = connection_info
 
         volume_id = connection_info['data']['volume_id']
 
@@ -257,7 +262,7 @@ class GCPProvider(BaseProvider):
         }
 
         operation = self.driver.instances().attachDisk(
-            project=config['project'], zone=config['zone'], instance=instance.uuid, body=body).execute()
+            project=config['project'], zone=config['zone'], instance=self.vm_prefix + instance.uuid, body=body).execute()
 
         self.wait_for_operation(operation)
 
@@ -274,7 +279,7 @@ class GCPProvider(BaseProvider):
         volume_id = connection_info['data']['volume_id']
 
         operation = self.driver.instances().detachDisk(
-            project=config['project'], zone=config['zone'], instance=instance.uuid, deviceName=volume_id).execute()
+            project=config['project'], zone=config['zone'], instance=self.vm_prefix + instance.uuid, deviceName=volume_id).execute()
 
         self.wait_for_operation(operation)
 
@@ -285,7 +290,7 @@ class GCPProvider(BaseProvider):
             "sourceDisk": "projects/{project}/zones/{zone}/disks/{instance}".format(
                 project=config['project'],
                 zone=config['zone'],
-                instance=instance.uuid
+                instance=self.vm_prefix + instance.uuid
             ),
             "name": "snapshot-{}".format(haikunator.haikunate())
         }
@@ -307,7 +312,7 @@ class GCPProvider(BaseProvider):
         }
 
         operation = self.driver.instances().setMachineType(
-            project=config['project'], zone=config['zone'], instnace=instance.uuid, body=body).execute()
+            project=config['project'], zone=config['zone'], instnace=self.vm_prefix + instance.uuid, body=body).execute()
 
         self.wait_for_operation(operation)
 
@@ -315,8 +320,18 @@ class GCPProvider(BaseProvider):
         LOG.info("***** Calling CONFIRM MIGRATION *******************")
         config = self.load_config()
         operation = self.driver.instances().start(
-            project=config['project'], zone=config['zone'], instance=instance.uuid).execute()
+            project=config['project'], zone=config['zone'], instance=self.vm_prefix + instance.uuid).execute()
         self.wait_for_operation(operation)
+
+    def _get_gcp_instance(self, nova_instance, project, zone):
+        try:
+            response = self.driver.instances().get(
+                project=project, zone=zone, instance=self.vm_prefix + nova_instance.uuid).execute()
+            return response
+        except HttpError as e:
+            if e.resp.status != 404:
+                raise e
+            return False
 
     def wait_for_operation(self, operation):
         config = self.load_config()

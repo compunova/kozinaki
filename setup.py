@@ -18,6 +18,7 @@ setup(
         'haikunator==2.1.0',
         'azure==2.0.0rc6',
         'boto3==1.4.0',
-        'google-cloud==0.21.0'
+        'google-cloud==0.21.0',
+        'cryptography==1.4'
     ]
 )

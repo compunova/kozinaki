@@ -21,7 +21,7 @@ def get_provider_by_name(provider_name):
     providers = {
         'AZURE': AzureProvider,
         'AWS': AWSProvider,
-        'GCP': AWSProvider,
+        'GCP': GCPProvider,
     }
     if provider_name in providers:
         return providers[provider_name]()
