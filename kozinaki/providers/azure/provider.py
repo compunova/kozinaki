@@ -525,7 +525,6 @@ class AzureProvider(BaseProvider):
         :param instance: nova.objects.instance.Instance
         """
         # TODO(Vek): Need to pass context in for access to auth_token
-        # raise NotImplementedError()
         pass
 
     def list_instances(self):

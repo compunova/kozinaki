@@ -13,14 +13,12 @@
 # limitations under the License.
 
 import os
-import time
 import logging
 
 from haikunator import Haikunator
 from oslo_config import cfg
-from nova.image import glance
 from oslo_service import loopingcall
-from nova.compute import power_state, task_states
+from nova.compute import power_state
 from googleapiclient import discovery
 from oauth2client.client import GoogleCredentials
 from googleapiclient.errors import HttpError
@@ -35,9 +33,9 @@ haikunator = Haikunator()
 
 POWER_STATE_MAP = {
     0:  power_state.NOSTATE,
-    'RUNNUNG': power_state.RUNNING,
+    'RUNNING': power_state.RUNNING,
     32: power_state.NOSTATE,
-    48: power_state.SHUTDOWN,
+    'TERMINATED': power_state.SHUTDOWN,
     64: power_state.NOSTATE,
     80: power_state.SHUTDOWN,
 }
@@ -113,7 +111,7 @@ class GCPProvider(BaseProvider):
         # Configure the machine
         machine_type = "zones/{zone}/machineTypes/{flavor}".format(zone=config['zone'], flavor=flavor_name)
 
-        config = {
+        machine_config = {
             'name': self.vm_prefix + instance.uuid,
             'machineType': machine_type,
 
@@ -148,7 +146,7 @@ class GCPProvider(BaseProvider):
         }
 
         operation = self.driver.instances().insert(
-            project=config['project'], zone=config['zone'], body=config).execute()
+            project=config['project'], zone=config['zone'], body=machine_config).execute()
         self.wait_for_operation(operation)
 
     def list_nodes(self):
@@ -196,7 +194,7 @@ class GCPProvider(BaseProvider):
             project=config['project'], zone=config['zone'], instance=self.vm_prefix + instance.uuid).execute()
 
         if instance:
-            node_power_state = POWER_STATE_MAP[instance['status']]
+            node_power_state = POWER_STATE_MAP.get(instance['status'], power_state.NOSTATE)
             node_id = instance['id']
         else:
             node_power_state = power_state.NOSTATE
@@ -292,11 +290,11 @@ class GCPProvider(BaseProvider):
                 zone=config['zone'],
                 instance=self.vm_prefix + instance.uuid
             ),
-            "name": "snapshot-{}".format(haikunator.haikunate())
+            "name": "snapshot-{}".format(self.vm_prefix + instance.uuid)
         }
 
         operation = self.driver.disks().createSnapshot(
-            project=config['project'], zone=config['zone'], disk=image_id).execute()
+            project=config['project'], zone=config['zone'], disk=self.vm_prefix + instance.uuid, body=body).execute()
 
         self.wait_for_operation(operation)
 

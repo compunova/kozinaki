@@ -1,18 +1,31 @@
-========
-Overview
-========
+# Overview
+
 
 Kozinaki is an OpenStack multi-cloud driver which aims to enable full lifecycle management of resource through OpenStack in public cloud providers (AWS, Azure, with more to come). We beleive that building a multi-cloud driver will open possiblities for true hybrid OpenStack use case and provide the uniformity in access to public clouds resources through versatile community developed OpenStack APIs. This driver gives an option to optimaly choose resources based on performance, price, avilability while preserving time and money investment into work deployment and management be it on prem or cloud resources.
 
 Kozinaki is intended to be completely pluggable into OpenStack architecture without changing the code of core OpenStack components. The driver has modular architecture which makes adding new cloud providers fairly easy. Kozinaki architecture relies on provider developed SDKs to interface with their APIs, where it is not feasible we are open to evaluate the use of libcloud.
 
-=======
-Support
-=======
+Supported function   | Nova command  | AWS | Azure             | GCP |
+-------------------- | :-----------: | :-: | :---------------: | :-: |
+Create               | boot          |  +  | +                 |  +  |
+Delete               | delete        |  +  | +                 |  +  |
+Stop                 | stop          |  +  | +                 |  +  |
+Start                | start         |  +  | +                 |  +  |
+Reboot               | reboot        |  +  | +                 |  +  |
+Get instance details | show          |  +  | +                 |  +  |
+List instances       | list          |  +  | +                 |  +  |
+Create snapshot      | image-create  |  +  | not supported     |  +  |
+Resize               | resize        |  +  | not supported     |  +  |
+Add disk             | volume-attach |  +  | in progress       |  +  |
+Remove disk          | volume-detach |  +  | in progress       |  +  |
+
+
+# Support
+
 
 We are glad to offer support on the best effort basis via kozinaki@compu-nova.com and Skype @ compu-nova, in return we will ask you to register your installation using a form on http://www.compu-nova.com/kozinaki.
 
-=========================
-Deployment and Operations
-=========================
+
+# Deployment and Operations
+
 Please see https://github.com/compunova/kozinaki/wiki
