@@ -11,7 +11,7 @@ setup(
     url='https://github.com/compunova/kozinaki.git',
     author='Compunova',
     author_email='kozinaki@compu-nova.com',
-    version='0.1.3',
+    version='0.1.4',
     long_description=readme(),
     packages=find_packages(),
     install_requires=[
