@@ -39,23 +39,7 @@ LOG = logging.getLogger(__name__)
 _LOG = "\n\n### {} ###\n\n"
 
 
-kozinaki_opts = [
-    cfg.StrOpt('prefix',
-               help='Provider instance name prefix'),
-    cfg.StrOpt('network_name',
-               help='Provider IP counterpart Network name'),
-    cfg.StrOpt('bridge',
-               help='Provider IP counterpart Network bridge name'),
-    cfg.StrOpt('bridge_interface',
-               help='Provider IP counterpart Network bridge interface name'),
-    cfg.StrOpt('proxy_url',
-               help='Proxy url - false if not used'),
-    cfg.ListOpt('enabled_providers',
-                help='All enabled providers'),
-]
-
 CONF = cfg.CONF
-CONF.register_opts(kozinaki_opts, 'kozinaki')
 CONF.import_opt('my_ip', 'nova.netconf')
 
 # Mapping of libcloud instance power states to the OpenStack power states
@@ -84,15 +68,8 @@ AZURE_POWER_STATE = {
 class KozinakiDriver(driver.ComputeDriver):
 
     def __init__(self, virtapi, read_only=False):
-
         super(KozinakiDriver, self).__init__(virtapi)
         self.instances = {}
-        self._conn = None
-        self._prefix = CONF.kozinaki.prefix
-        self._network_name = CONF.kozinaki.network_name
-        self._bridge = CONF.kozinaki.bridge
-        self._bridge_interface = CONF.kozinaki.bridge_interface
-        self._proxy_url = CONF.kozinaki.proxy_url
         self._mounts = {}
         self._version = '0.1'
         self._interfaces = {}
@@ -104,7 +81,13 @@ class KozinakiDriver(driver.ComputeDriver):
         """Initialize anything that is necessary for the driver to function,
         including catching up with currently running VM's on the given host.
         """
+
         return
+
+    def _configured_providers(self):
+        providers_sections = [section.split('_')[1] for section in
+                              CONF.list_all_sections() if section.startswith('kozinaki_')]
+        return providers_sections
 
     def cleanup_host(self, host):
         """Clean up anything that is necessary for the driver gracefully stop,
@@ -125,7 +108,6 @@ class KozinakiDriver(driver.ComputeDriver):
             cpu_time_ns:    (int) the CPU time used in nanoseconds
             id:             a unique ID for the instance
         """
-
         provider = self._get_instance_provider(instance)
         provider_info = provider.get_info(instance)
 
@@ -178,13 +160,12 @@ class KozinakiDriver(driver.ComputeDriver):
         :param instance_info: Instance/flavor to calculate overhead for.
         :returns: Dict of estimated overhead values.
         """
-        return {'memory_mb': 0,
-                'disk_gb': 0}
+        return {'memory_mb': 0, 'disk_gb': 0}
 
     def list_instances(self):
         """Return the names of all the instances known to the virtualization layer, as a list"""
         all_nodes_names = []
-        for provider_name in CONF.kozinaki.enabled_providers:
+        for provider_name in self._configured_providers():
             provider = get_provider_by_name(provider_name)
             all_nodes_names.extend(provider.list_instances())
         return all_nodes_names
@@ -192,7 +173,7 @@ class KozinakiDriver(driver.ComputeDriver):
     def list_instance_uuids(self):
         """Return the UUIDS of all the instances known to the virtualization layer, as a list"""
         all_nodes_uuid = []
-        for provider_name in CONF.kozinaki.enabled_providers:
+        for provider_name in self._configured_providers():
             provider = get_provider_by_name(provider_name)
             all_nodes_uuid.extend(provider.list_instances())
         return all_nodes_uuid
@@ -336,7 +317,7 @@ class KozinakiDriver(driver.ComputeDriver):
         provider.reboot(instance)
 
     def get_console_pool_info(self, console_type):
-        # TODO(Vek): Need to pass context in for access to auth_token
+
         raise NotImplementedError()
 
     def get_console_output(self, context, instance):
@@ -490,9 +471,7 @@ class KozinakiDriver(driver.ComputeDriver):
         except KeyError:
             raise exception.InterfaceDetachFailed('not attached')
 
-    def migrate_disk_and_power_off(self, context, instance, dest,
-                                   flavor, network_info,
-                                   block_device_info=None,
+    def migrate_disk_and_power_off(self, context, instance, dest, flavor, network_info, block_device_info=None,
                                    timeout=0, retry_interval=0):
         """Transfers the disk of a running instance in multiple phases, turning
         off the instance before the end.
@@ -597,7 +576,7 @@ class KozinakiDriver(driver.ComputeDriver):
 
         :return: None
         """
-        # TODO(Vek): Need to pass context in for access to auth_token
+
         raise NotImplementedError()
 
     def unpause(self, instance):
@@ -613,7 +592,7 @@ class KozinakiDriver(driver.ComputeDriver):
 
         :return: None
         """
-        # TODO(Vek): Need to pass context in for access to auth_token
+
         raise NotImplementedError()
 
     def suspend(self, context, instance):
@@ -690,10 +669,9 @@ class KozinakiDriver(driver.ComputeDriver):
 
         :param instance: nova.objects.instance.Instance
         """
-        # TODO(Vek): Need to pass context in for access to auth_token
+
         raise NotImplementedError()
 
-    # TODO: after stop, powerstate is NOSTATE, need to address that
     def power_off(self, instance, timeout=0, retry_interval=0):
         """Power off the specified instance.
 
@@ -756,6 +734,7 @@ class KozinakiDriver(driver.ComputeDriver):
 
     # TODO: since we have infinite resources we need to set them as either maximum
     # available by data type or figure out what infinity means for them
+
     def get_available_resource(self, nodename):
         """Retrieve resource information.
 
@@ -778,23 +757,16 @@ class KozinakiDriver(driver.ComputeDriver):
                'hypervisor_type': 'kozinaki',
                'hypervisor_version': 1.0,
                'hypervisor_hostname': nodename,
-               # 'supported_hv_specs': [],
-               'cpu_info': '?',  # TODO: see vmwareapi/host.py:HostState.update_status() and for the next one too
+               'cpu_info': '?',
 
-               # TODO: figure out what the supported_instances should be
                'supported_instances': [
                    (arch.I686, hv_type.FAKE, vm_mode.HVM),
                    (arch.X86_64, hv_type.FAKE, vm_mode.HVM)
                ]
-
-               # Hyper-V
-               # data["supported_instances"] = [('i686', 'hyperv', 'hvm'),
-               #                                ('x86_64', 'hyperv', 'hvm')]
                }
         return dic
 
-    def pre_live_migration(self, context, instance, block_device_info,
-                           network_info, disk_info, migrate_data):
+    def pre_live_migration(self, context, instance, block_device_info, network_info, disk_info, migrate_data=None):
         """Prepare an instance for live migration
 
         :param context: security context
@@ -996,7 +968,7 @@ class KozinakiDriver(driver.ComputeDriver):
         An error should be raised if the operation cannot complete.
 
         """
-        # TODO(Vek): Need to pass context in for access to auth_token
+
         raise NotImplementedError()
 
     def refresh_instance_security_rules(self, instance):
@@ -1010,7 +982,7 @@ class KozinakiDriver(driver.ComputeDriver):
 
     def reset_network(self, instance):
         """reset networking for specified instance."""
-        # TODO(Vek): Need to pass context in for access to auth_token
+
         pass
 
     def ensure_filtering_rules_for_instance(self, instance, network_info):
@@ -1036,7 +1008,7 @@ class KozinakiDriver(driver.ComputeDriver):
         :param instance: nova.objects.instance.Instance object
 
         """
-        # TODO(Vek): Need to pass context in for access to auth_token
+
         raise NotImplementedError()
 
     def filter_defer_apply_on(self):
@@ -1049,7 +1021,7 @@ class KozinakiDriver(driver.ComputeDriver):
 
     def unfilter_instance(self, instance, network_info):
         """Stop filtering instance."""
-        # TODO(Vek): Need to pass context in for access to auth_token
+
         raise NotImplementedError()
 
     def set_admin_password(self, instance, new_pass):
@@ -1072,7 +1044,7 @@ class KozinakiDriver(driver.ComputeDriver):
         NOTE(russellb) This method is deprecated and will be removed once it
         can be removed from nova.compute.manager.
         """
-        # TODO(Vek): Need to pass context in for access to auth_token
+
         raise NotImplementedError()
 
     def change_instance_metadata(self, context, instance, diff):
@@ -1090,7 +1062,7 @@ class KozinakiDriver(driver.ComputeDriver):
 
     def inject_network_info(self, instance, nw_info):
         """inject network info for specified instance."""
-        # TODO(Vek): Need to pass context in for access to auth_token
+
         pass
 
     def poll_rebooting_instances(self, timeout, instances):
@@ -1108,7 +1080,7 @@ class KozinakiDriver(driver.ComputeDriver):
 
         :return: None
         """
-        # TODO(Vek): Need to pass context in for access to auth_token
+
         raise NotImplementedError()
 
     def host_power_action(self, action):
@@ -1146,7 +1118,7 @@ class KozinakiDriver(driver.ComputeDriver):
                  last boot.
         :rtype: str
         """
-        # TODO(Vek): Need to pass context in for access to auth_token
+
         raise NotImplementedError()
 
     def plug_vifs(self, instance, network_info):
@@ -1162,13 +1134,10 @@ class KozinakiDriver(driver.ComputeDriver):
 
         :return: None
         """
-        # TODO(Vek): Need to pass context in for access to auth_token
+
         raise NotImplementedError()
 
     def unplug_vifs(self, instance, network_info):
-        # NOTE(markus_z): 2015-08-18
-        # The compute manager doesn't use this interface, which seems odd
-        # since the manager should be the controlling thing here.
         """Unplug virtual interfaces (VIFs) from networks.
 
         The counter action is :func:`plug_vifs`.
@@ -1331,8 +1300,7 @@ class KozinakiDriver(driver.ComputeDriver):
         """
         raise NotImplementedError()
 
-    def undo_aggregate_operation(self, context, op, aggregate,
-                                  host, set_error=True):
+    def undo_aggregate_operation(self, context, op, aggregate, host, set_error=True):
         """Undo for Resource Pools."""
         raise NotImplementedError()
 
@@ -1504,10 +1472,6 @@ class KozinakiDriver(driver.ComputeDriver):
         :param fs_type: the file system type to be checked,
                         the validate values are defined at disk API module.
         """
-        # NOTE(jichenjc): Return False here so that every hypervisor
-        #                 need to define their supported file system
-        #                 type and implement this function at their
-        #                 virt layer.
         return False
 
     def quiesce(self, context, instance, image_meta):
@@ -1548,73 +1512,6 @@ class KozinakiDriver(driver.ComputeDriver):
         """
         return instance.get('host')
 
-    @staticmethod
-    def _enabled_providers_init():
-        """Init all providers from config
-
-        In config providers must be set by parameter:
-            enabled_providers=AZURE,EC
-        """
-
-        enabled_providers = {}
-        for provider_name in CONF.kozinaki.enabled_providers:
-            enabled_providers[provider_name] = get_provider_by_name(provider_name)
-        return enabled_providers
-
-    # TODO (rnl): figure out why there was a @property decorator
-    # @synchronized('provider-access')
-    # def conn(self, provider_name, provider_region=None):
-    #     """Establish connection to the cloud provider. Cloud provider
-    #     data is kept in dict including user, key and connection handle.
-    #     This approach enables having one nova-compute handle all kozinaki cloud
-    #     connections.
-    #
-    #     :return: connection object handle
-    #     """
-    #
-    #     conf_provider = "kozinaki_" + provider_name
-    #     conf_proxy = "kozinaki_proxy"
-    #
-    #     # TODO (rnl): add parameter checking
-    #
-    #     if (provider_name == 'EC2' or provider_name == 'ELASTICHOSTS') and provider_region != None:
-    #         provider_name = provider_name + "_" + provider_region
-    #
-    #     if self._providers.get(provider_name) is None:
-    #
-    #         # TODO: add proxy configuration
-    #         provider_opts = [
-    #             cfg.StrOpt('user',
-    #                        help='Username to connect to the cloud provider '),
-    #             cfg.StrOpt('key',
-    #                        help='API key to work with the cloud provider',
-    #                        secret=True),
-    #             cfg.StrOpt('cloud_service_name',
-    #                        help='Azure: cloud service name'),
-    #             cfg.StrOpt('storage_service_name',
-    #                        help='Azure: storage service name'),
-    #             cfg.StrOpt('default_password',
-    #                        help='Azure: default instance password'),
-    #             cfg.StrOpt('admin_user_id',
-    #                        help='Azure: default username'),
-    #         ]
-    #
-    #         CONF.register_opts(provider_opts, conf_provider)
-    #         _driver = get_driver(getattr(provider_obj, provider_name))
-    #
-    #         self._providers[provider_name] = {}
-    #
-    #         if provider_name == 'AZURE':
-    #             self._providers[provider_name]['cloud_service_name'] = CONF[conf_provider]['cloud_service_name']
-    #             self._providers[provider_name]['storage_service_name'] = CONF[conf_provider]['storage_service_name']
-    #             self._providers[provider_name]['default_password'] = CONF[conf_provider]['default_password']
-    #
-    #         self._providers[provider_name] = _driver(CONF[conf_provider]['user'], CONF[conf_provider]['key'])
-    #
-    #     if self._proxy_url != 'False':
-    #         self._providers[provider_name].connection.set_http_proxy(proxy_url=self._proxy_url)
-    #     return self._providers[provider_name]
-
     def _get_instance_provider(self, instance):
         provider_name = instance.system_metadata.get('image_img_owner_id')
         if provider_name:
@@ -1622,583 +1519,3 @@ class KozinakiDriver(driver.ComputeDriver):
         else:
             raise KozinakiException('Missing "img_owner_id" property in image. This is should be provider name. '
                                     '(for example img_owner_id="AZURE")')
-
-    def _prefix_instance_name(self, instance):
-        """Creates instance name with the prefix"""
-        return "%s-%s" % (self._prefix, instance['uuid'])
-
-    @staticmethod
-    def _validate_image(instance, image_meta):
-        """Check that the image used is of supported container type"""
-
-        # TODO: configm that the imaThat'sge containes provider and region flags
-        fmt = image_meta['container_format']
-
-        if fmt != 'kozinaki':
-            msg = 'Image container format not supported ({0})'
-            raise exception.InstanceDeployFailure(msg.format(fmt), instance_id=instance['name'])
-
-    def _create_instance_name(self, uuid):
-        """Instance length limitation in Azure is 15 chars
-
-        :param uuid: local instance uuid
-        :return: last chunk 12 chars of the local instance uuid
-        """
-        return self._prefix + "-" + uuid.split('-')[4]
-
-    @staticmethod
-    def _get_local_image_meta(metadata, key):
-        """
-        :param metadata: image metadata
-        :param key: key to look up in the metadata dict
-        :return: key value
-        """
-
-        if hasattr(metadata, 'properties'):
-            return metadata.properties.key if hasattr(metadata.properties, key) else None
-        return None
-
-    @staticmethod
-    def _get_local_instance_meta(instance, key):
-        """
-        :param key: key to look up in the metadata dict
-        :return: key value
-        """
-
-        # NOTE(fissman): accounts for the fact that destroy receives dict
-        if isinstance(instance, type({})):
-            li_name = instance['display_name']
-        else:
-            li_name = instance.display_name
-
-        # AttributeError: 'list' object has no attribute 'get'
-        metadata = instance.get('metadata')
-
-        # NOTE (fissman): must figure out how to handle the list-based metadata
-        if metadata:
-            if isinstance(metadata, type([])):
-                LOG.error('%s: metadata came in as a list' % li_name)
-                return None
-            if metadata.get(key):
-                return metadata.get(key)
-            else:
-                return None
-        else:
-            return None
-
-    @staticmethod
-    def _set_local_instance_meta(local_instance, key, value):
-
-        metadata = {key: value}
-
-        admin_context = ctxt2.get_admin_context()
-
-        compute_api = compute.API()
-        compute_api.update_instance_metadata(admin_context, local_instance, metadata)
-
-    def _update_local_instance_meta(self, context, local_instance, provider_name, provider_region,
-                                    provider_instance_name):
-        # TODO: move metadata update to a separate function place
-        # TODO: this will be needed as a function to set prices into glance images
-        # separate library to work with local and remote instances outside the driver is needed
-        # TODO: add image_meta to the instance describing the OS
-
-        metadata = {'provider_name': provider_name}
-
-        if provider_region:
-            metadata['provider_region'] = provider_region
-        metadata['provider_instance_name'] = provider_instance_name
-
-        if provider_name == 'AZURE':
-            metadata['cloud_service_name'] = self._providers['AZURE']['cloud_service_name']
-            metadata['storage_service_name'] = self._providers['AZURE']['cloud_service_name']
-
-        compute_api = compute.API()
-        compute_api.update_instance_metadata(context, local_instance, metadata)
-
-    def _get_local_instance_conn(self, instance):
-        """
-        :param instance: local instance
-        :return: libcloud provider driver corresponding to the local instance'
-        """
-        # TODO: use proxy if configured
-        provider_name = self._get_local_instance_meta(instance, 'provider_name')
-        provider_region = self._get_local_instance_meta(instance, 'provider_region')
-
-        return get_provider_by_name(provider_name)
-
-    # @synchronized('_get_provider_instance')
-    def _get_provider_instance(self, instance, provider_name=None, provider_region=None):
-        """
-        :param instance: local instance
-        :return: provider instance that corresponds to the local instance, extract from existing and create for the new ones
-        """
-
-        # NOTE(fissman): accounts for the fact that destroy receives dict
-        if isinstance(instance, type({})):
-            li_name = instance['display_name']
-        else:
-            li_name = instance.display_name
-
-        if provider_name is None:
-            provider_name = self._get_local_instance_meta(instance, 'provider_name')
-            if provider_name is None:
-                LOG.error('%s: contains no provider_name meta and none passed' % li_name)
-                return
-
-        if provider_region is None:
-            provider_region = self._get_local_instance_meta(instance, 'provider_region')
-            if provider_region is None:
-                LOG.debug('%s: contains no provider_region meta and none passed' % li_name)
-
-        provider_instance_name = self._get_local_instance_meta(instance, 'provider_instance_name')
-        if provider_instance_name is None:
-            provider_instance_name = self._create_instance_name(instance['uuid'])
-
-        provider_instances = self._list_provider_instances(provider_name, provider_region)
-
-        if provider_instances is None:
-            LOG.error('%s: has no provider_instance' % li_name)
-            return
-
-        try:
-            # for provider_instance in provider_instances:
-            #     if provider_instance.state != NodeState.TERMINATED and provider_instance.name == provider_instance_name:
-            #         return provider_instance
-            LOG.error('%s: unable to find a corresponding provider instance' % li_name)
-            return None
-        except:
-            LOG.debug('%s: exception occured in _get_provider_instance' % li_name)
-            return None
-
-    def _list_provider_instances(self, provider_name, provider_region):
-
-        return get_provider_by_name(provider_name).list_nodes()
-
-    def _list_provider_vpcs(self, provider_name, provider_region):
-
-        if provider_name == 'AZURE':
-            LOG.debug('INFO: vpcs not implemented for Azure')
-        else:
-            return get_provider_by_name(provider_name).ex_list_networks()
-
-        #     @classmethod
-        #     def _timeout_call(cls, wait_period, timeout):
-        #         """
-        #         This decorator calls given method repeatedly
-        #         until it throws exception. Loop ends when method
-        #         returns.
-        #         """
-        #         def _inner(cls, f):
-        #             @wraps(f)
-        #             def _wrapped(*args, **kwargs):
-        #                 start = time.time()
-        #                 end = start + timeout
-        #                 exc = None
-        #                 while(time.time() < end):
-        #                     try:
-        #                         return f(*args, **kwargs)
-        #                     except Exception as exc:
-        #                         time.sleep(wait_period)
-        #                 raise exc
-        #             return _wrapped
-        #         return _inner
-
-    def _setup_local_instance(self, context, local_instance, create_node_provider_instance, provider_name,
-                              provider_region, network_info):
-        """
-        Setup local instance with IP address and instance's properties in metadata, such as provider_name, provider_region,
-        provider_instance_name
-        """
-        # LOG.debug(_LOG.format("INFO: check provider_instance %s" %  create_node_provider_instance))
-        # LOG.debug(_LOG.format("INFO: _get_provider_instance_ip"))
-        provider_instance_ip = self._get_provider_instance_ip(context, local_instance, create_node_provider_instance,
-                                                              provider_name, provider_region)
-        LOG.debug("_bind_ip_to_instance: address %s to %s" % (provider_instance_ip, local_instance))
-        self._bind_ip_to_instance(context, local_instance, provider_instance_ip, network_info)
-
-        # LOG.debug(_LOG.format("INFO: _update_local_instance_meta"))
-        # self._update_local_instance_meta(context, local_instance, provider_name, provider_region,
-        #  create_node_provider_instance.name)
-        # 
-        # local_instance.power_state = power_state.RUNNING
-        # local_instance.save()
-
-    def _get_provider_instance_ip(self, context, local_instance, create_node_provider_instance, provider_name,
-                                  provider_region):
-        """
-        Spawning a provider instance is different than spawning a local one.
-        IP addresses are assigned to the instances by the providers, and we
-        need to bind the provider IP to the new instance.
-
-        Function scans the list of the instances in provider and matches the
-        name to the UUID of the local instance
-        """
-
-        """ provider_instance_* refers to the instance created within cloud provider """
-        list_item_provider_instance_ip = None
-
-        while not list_item_provider_instance_ip:
-
-            for list_item_provider_instance in self._list_provider_instances(provider_name, provider_region):
-                if list_item_provider_instance.name == create_node_provider_instance.name:
-                    if list_item_provider_instance.public_ips:
-                        if provider_name == 'AZURE':
-                            list_item_provider_instance_ip = list_item_provider_instance.private_ips[0]
-                        else:
-                            list_item_provider_instance_ip = list_item_provider_instance.public_ips[0]
-                        break
-            if list_item_provider_instance_ip:
-                return list_item_provider_instance_ip
-                break
-        return
-
-    def _bind_ip_to_instance(self, context, local_instance, provider_instance_ip, network_info):
-        """
-        Binds provider instance IP address to the local instance
-
-        :param context:
-        :param local_instance:
-        :param provider_instance_ip:
-        :return:
-        """
-
-        admin_context = ctxt2.get_admin_context()
-        network_manager = FlatManager()
-
-        """ 
-        This loop checks whether the nova network exists for the IP address that we received to be bound to the local
-        instance
-        If network doesn't exist, it is created with /24 mask and named 'test'.
-        All networks had to be named the same due to their display in Horizon.
-        displayed as multiple networks, this has to do with multi-AZ setup and network-to-host association
-        """
-        try:
-            LOG.debug(_LOG.format("INFO: first wait for network"))
-            network = self._get_local_network(admin_context, IPAddress(provider_instance_ip), _timeout=10)
-        except:
-            a = provider_instance_ip.split('.')
-            cidr = '.'.join(a[:3]) + ".0/24"
-            network_manager.create_networks(admin_context, self._network_name, cidr=cidr, bridge=self._bridge,
-                                            bridge_interface=self._bridge_interface)
-        # TODO: Figure out how --nic option enables to bind only one network to th local instance
-        # TODO: FixedIpAlreadyInUse_Remote: Fixed IP address 137.116.234.178 is already in use on instance 934798a3-bde0-42e3-9843-40f3539a6acd.
-        LOG.debug(_LOG.format("INFO: second wait for network - after creation"))
-        network = self._get_local_network(admin_context, IPAddress(provider_instance_ip))
-        LOG.debug(_LOG.format('INFO: Local network for provider instance found.'))
-
-        macs = self.macs_for_instance(local_instance)
-        dhcp_options = self.dhcp_options_for_instance(local_instance)
-        security_groups = []
-        is_vpn = False
-        requested_networks = [[network['uuid'], IPAddress(provider_instance_ip)]]
-        self.network_api.allocate_for_instance(
-            admin_context, local_instance,
-            vpn=is_vpn,
-            requested_networks=requested_networks,
-            macs=macs,
-            security_groups=security_groups,
-            dhcp_options=dhcp_options)
-        #         """ fip (fixed IP) and we create this object """
-        #         return
-        #         fip = fixed_ip_obj.FixedIP.associate(admin_context, IPAddress(provider_instance_ip), local_instance['uuid'], network_id=network['id'], reserved=False)
-        #         fip.allocated = True
-        #         return
-        #         """ vif (virtual interface) that we create based on the network that either existed or the one that we created """
-        #         LOG.debug(_LOG.format('INFO: Waiting for VIF: %s, %s' % (local_instance['uuid'], network['id'])))
-        # #         vif = self._get_virtual_interface(admin_context, local_instance['uuid'], network['id'])
-        #         vif = vif_obj.VirtualInterface.get_by_instance_and_network(admin_context, local_instance['uuid'], network['id'])
-        #         """ we set the vif of the fip """
-        #         fip.virtual_interface_id = vif.id
-        #         """ saving it writes it into the table """
-        #         fip.save()#             eventlet.spawn(self._setup_local_instance, context, instance, provider_instance, provider_name, provider_region)
-        # 
-        #         """ After that we extract the network information from the network-related tables """
-        for _ in range(len(network_info)):
-            network_info.pop()
-
-        time.sleep(5)
-        network_info.extend(network_manager.get_instance_nw_info(admin_context, local_instance['uuid'], None, None))
-        LOG.debug(network_info)
-        #         self.network_api.update_instance_cache_with_nw_info(admin_context, local_instance, nw_info=nw_info)
-        #         """ Create a cache object """
-        ic = info_cache_obj.InstanceInfoCache.new(admin_context, local_instance['uuid'])
-        #         """ we now update and save the cache object with the network information """
-        ic.network_info = network_info
-        ic.save(update_cells=True)
-        LOG.debug('INFO: bind_ip done')
-
-    #         if network:
-    #             network_manager.allocate_fixed_ip(admin_context, local_instance['uuid'], network)
-    #         else:
-    #             LOG.debug('ERROR: network not succesfully created - cannot be added to instnace')
-
-    @timeout_call(wait_period=3, timeout=600)
-    def _get_local_network(self, context, ip_address, _timeout=None):
-        """
-        This method returns Network object if found.
-        :param ip_address
-        :return: Network:
-        """
-        for net in network_obj.NetworkList.get_all(context):
-            if IPAddress(ip_address) in net._cidr:
-                return net
-        raise Exception('Local network not found')
-
-    @timeout_call(wait_period=3, timeout=60)
-    def _get_virtual_interface(self, context, instance_id, network_id):
-        vif = vif_obj.VirtualInterface.get_by_instance_and_network(context, instance_id, network_id)
-        if vif:
-            return vif
-        raise Exception('Virtual Interface for provider-ip network not found')
-
-    def live_snapshot(self, context, instance, name, update_task_state):
-        """Snapshot an instance without downtime."""
-
-        pass
-
-    def _get_provider_instance_meta(self, instance, key, provider_name=None, provider_region=None):
-
-        if isinstance(instance, type({})):
-            li_name = instance['display_name']
-        else:
-            li_name = instance.display_name
-
-        if provider_name and provider_region:
-            provider_instance = self._get_provider_instance(instance, provider_name=provider_name,
-                                                            provider_region=provider_region)
-        else:
-            provider_instance = self._get_provider_instance(instance)
-
-        if provider_instance is None:
-            LOG.error('unable to get provider_instance for %s' % li_name)
-            return
-
-        if key == 'state':
-            return provider_instance.state
-
-    def _wait_for_state(self, instance, state, provider_name=None, provider_region=None, dont_set_meta=None,
-                        interval=None):
-
-        if provider_name not in self._providers:
-            return
-
-        timeout = 60 * 20
-        wait_time = 0
-
-        if interval:
-            interval = interval
-        else:
-            interval = 5
-
-        if provider_name == "AZURE":
-            all_provider_instances = self._list_provider_instances(provider_name, provider_region)
-            # provider_instance = [p_instance for p_instance in all_provider_instances if p_instance.name == instance.name]
-
-        # while wait_time < timeout:
-
-            # provider_instance_state = self._get_provider_instance_meta(instance, 'state', provider_name=provider_name,
-            #                                                            provider_region=provider_region)
-
-            # if provider_instance_state != state:
-            #     if dont_set_meta is None:
-            #         self._set_local_instance_meta(instance, 'provider_task_duration', str(wait_time))
-            #     wait_time += interval
-            #     time.sleep(interval)
-            # else:
-            #     break
-
-    def _do_provider_instance_action(self, action, local_instance, new_size=None, image_name=None, cidr_block=None,
-                                     vpc=None):
-        """
-        Perform different actions with provider specific parameters where required
-
-        :param local_instance:
-        :return:
-        """
-
-        # NOTE(fissman): li - local instance, ri - remote instance
-
-        # NOTE(fissman): accounts for the fact that destroy receives dict
-        if isinstance(local_instance, type({})):
-            li_name = local_instance['display_name']
-        else:
-            li_name = local_instance.display_name
-
-        LOG.debug("%s:%s: started" % (li_name, action))
-
-        provider_instance = self._get_provider_instance(local_instance)
-        if provider_instance is None:
-            LOG.error("%s:%s: no provider_instance discovered, will not perform action" % (li_name, action))
-            return
-        LOG.debug("%s:%s: retrieved provider instance name" % (li_name, action))
-
-        provider_conn = self._get_local_instance_conn(local_instance)
-
-        provider_name = self._get_local_instance_meta(local_instance, 'provider_name')
-        if provider_name == 'AZURE':
-            provider_cloud_service_name = self._providers[provider_name]['cloud_service_name']
-        LOG.debug("%s:%s: provider name %s" % (li_name, action, provider_name))
-
-        # TODO(fissman): refactor this function to exclude the provider instance lookup, since it's already done
-        current_state = self._get_provider_instance_meta(local_instance, 'state')
-        LOG.debug("%s:%s: provider instance state %s" % (li_name, action, current_state))
-
-        if action == 'start':
-            # TODO: address the case that after StoppedUnallocated instance stops it doesn't have an IP address so after start
-            # TODO: need to add the address to the instance
-            if provider_name == 'AZURE':
-                # if current_state == NodeState.STOPPED:
-                #     self._set_local_instance_meta(local_instance, 'provider_task_state', 'powering_on')
-                #     self._set_local_instance_meta(local_instance, 'provider_task_duration', str(0))
-                #     LOG.debug('INFO: _do_provider_action: issuing an ex_start_node command')
-                #
-                #     local_instance.task_state = task_states.POWERING_ON
-                #     local_instance.save()
-                #
-                #     provider_conn.ex_start_node(provider_instance, ex_cloud_service_name=provider_cloud_service_name)
-                #     LOG.debug('INFO: _do_provider_action: completed issuing an ex_start_node command')
-                #
-                #     self._wait_for_state(local_instance, NodeState.RUNNING)
-                #     LOG.debug('INFO: _do_provider_action: state attained')
-                #
-                #     self._set_local_instance_meta(local_instance, 'provider_task_state', '-')
-                # else:
-                #     LOG.debug(
-                #         '_do_provider_instance_action:stop unable to start, since provider instance is already running')
-                #     return
-                pass
-            else:
-                provider_conn.ex_start_node(provider_instance)
-
-        elif action == 'stop':
-            # TODO: after the instance is stopped the IP address needs to be deallocated from the local instance.
-            # TODO: also the network needs be deleted
-
-            if provider_name == 'AZURE':
-                # if current_state == NodeState.RUNNING:
-                #     self._set_local_instance_meta(local_instance, 'provider_task_state', 'powering_off')
-                #     self._set_local_instance_meta(local_instance, 'provider_task_duration', str(0))
-                #
-                #     local_instance.task_state = task_states.POWERING_OFF
-                #     local_instance.save()
-                #
-                #     provider_conn.ex_stop_node(provider_instance, ex_cloud_service_name=provider_cloud_service_name)
-                #
-                #     self._wait_for_state(local_instance, NodeState.STOPPED)
-                #     self._set_local_instance_meta(local_instance, 'provider_task_state', '-')
-                # else:
-                #     LOG.debug(
-                #         '_do_provider_instance_action:stop unable to stop, since provider instance is already stopped')
-                #     return
-                pass
-            else:
-                provider_conn.ex_stop_node(provider_instance)
-
-        elif action == 'reboot':
-            if provider_name == 'AZURE':
-                self._set_local_instance_meta(local_instance, 'provider_task_state', 'rebooting')
-                self._set_local_instance_meta(local_instance, 'provider_task_duration', str(0))
-
-                local_instance.task_state = task_states.REBOOTING
-                local_instance.save()
-
-                provider_conn.reboot_node(provider_instance, ex_cloud_service_name=provider_cloud_service_name)
-
-                # TODO: need to figure out what transitional state the instance goes into to catch it
-                # need an external script to test it out.
-
-                # self._wait_for_state(local_instance, NodeState.REBOOTING, interval=1)
-                # self._wait_for_state(local_instance, NodeState.RUNNING)
-                self._set_local_instance_meta(local_instance, 'provider_task_state', '-')
-            else:
-                provider_conn.reboot_node(provider_instance)
-
-        elif action == 'resize':
-            if not new_size:
-                return
-
-            if provider_name == 'AZURE':
-                LOG.debug('_do_provider_instance_action:resize started')
-                provider_conn.ex_change_node_size(provider_instance, provider_cloud_service_name, new_size)
-
-                # provider_instance_state = self._get_provider_instance_meta(local_instance, 'state', 
-                # provider_name=provider_name, provider_region=provider_region)
-                LOG.debug('_do_provider_instance_action:resize completed')
-            else:
-                self._resize_provider_instance(provider_conn, provider_instance, new_size)
-
-        elif action == 'destroy':
-
-            LOG.debug("%s:%s: called provider action" % (li_name, action))
-            if provider_name == 'AZURE':
-                provider_conn.destroy_node(provider_instance, provider_cloud_service_name)
-            else:
-                provider_conn.destroy_node(provider_instance)
-            LOG.debug("%s:%s: completed provider action" % (li_name, action))
-
-        elif action == 'create-image':
-            if not image_name:
-                return
-
-            if provider_name == 'AZURE':
-                provider_conn.ex_create_image_from_node(provider_instance, provider_cloud_service_name)
-            else:
-                # EC2 image mapping - taken from libcloud/compute/drivers/ec2.py
-                mapping = [{'VirtualName': None,
-                            'Ebs': {'VolumeSize': 10,
-                                    'VolumeType': 'standard',
-                                    'DeleteOnTermination': 'true'},
-                            'DeviceName': '/dev/sda1'}]
-                provider_conn.ex_create_image_from_node(provider_instance, image_name, mapping)
-
-        elif action == 'create-vpc':
-            if not cidr_block:
-                return
-
-            if provider_name == 'AZURE':
-                provider_conn.create_virtual_network_gateway(
-                    ex_virtual_network_name='Kozinaki',
-                    ex_gateway_type='StaticRouting')
-                # TODO: connect virtual network to local network and test connection 
-            else:
-                provider_conn.ex_create_network(cidr_block, name='Kozinaki')
-
-        elif action == 'delete-vpc':
-            if not vpc:
-                return
-
-            if provider_name == 'AZURE':
-                LOG.debug('INFO: delete_vpc not implemented for Azure')
-            else:
-                provider_conn.ex_delete_network(vpc)
-
-    @timeout_call(wait_period=3, timeout=600)
-    def _resize_provider_instance(self, local_instance_conn, provider_instance, new_size, **kwargs):
-        """
-        Performs ex_change_node_size on provider_instance handling
-        any exceptions and repeating call until timeout expires.
-        This prevents from calling resize on still running instances.
-        """
-        return local_instance_conn.ex_change_node_size(provider_instance, new_size, **kwargs)
-
-    def interface_stats(self, instance_name, iface_id):
-        return [0, 0, 0, 0, 0, 0, 0, 0]
-
-    def refresh_security_group_members(self, security_group_id):
-        return True
-
-    def refresh_provider_fw_rules(self):
-        pass
-
-    # TODO: use hostname instead of IP address
-    def get_host_stats(self, refresh=False):
-        """Return currently known host stats."""
-        return self.get_available_resource(CONF.my_ip)
-
-    def test_remove_vm(self, instance_name):
-        """Removes the named VM, as if it crashed. For testing."""
-        self.instances.pop(instance_name)
-
-    def get_disk_available_least(self):
-        pass

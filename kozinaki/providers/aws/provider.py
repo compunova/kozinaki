@@ -83,14 +83,22 @@ class AWSProvider(BaseProvider):
         return cfg.CONF[self.config_name]
 
     def create_node(self, instance, image_meta, *args, **kwargs):
-        config = self.load_config()
-
         # Get info
         image_id = getattr(image_meta.properties, 'os_distro')
+        subnet_id = instance.metadata.get('subnet_id')
         flavor_name = instance.flavor['name']
 
-        aws_instance = self.driver.create_instances(ImageId=image_id, InstanceType=flavor_name,
-                                                    MinCount=1, MaxCount=1)[0]
+        image_config = {
+            'ImageId': image_id,
+            'InstanceType': flavor_name,
+            'MinCount': 1,
+            'MaxCount': 1
+        }
+
+        if subnet_id:
+            image_config.update({'SubnetId': subnet_id})
+
+        aws_instance = self.driver.create_instances(**image_config)[0]
 
         # Add openstack image uuid to tag
         aws_instance.create_tags(Tags=[{'Key': 'openstack_server_id', 'Value': instance.uuid}])
