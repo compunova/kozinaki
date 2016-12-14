@@ -46,12 +46,23 @@ def main():
         parser.add_argument('type', metavar='type', type=str, nargs='?', help='Node type')
         args = parser.parse_args()
         if args.type:
+            table_data = [
+                ['Need to provide:']
+            ]
             node_params = node_manager.get_node_params(node_type=args.type)
-            print('Need to provide: {}'.format(node_params))
+            for param in node_params:
+                table_data.append([param])
+            table = AsciiTable(table_data)
+            print(table.table)
         else:
             print('Valid node types:')
+            table_data = [
+                ['Type', 'Config']
+            ]
             for type_name, config in node_manager.valid_node_types.items():
-                print('{}: {}'.format(type_name, config))
+                table_data.append([type_name, config])
+            table = AsciiTable(table_data)
+            print(table.table)
 
     elif action_arg[0].action == ['list']:
         all_nodes = node_manager.node_list()
