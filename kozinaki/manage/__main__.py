@@ -12,70 +12,68 @@ with open(os.path.join(BASE_PATH, 'config.yaml'), 'r') as conf_file:
     CONFIG = yaml.load(conf_file)
 
 
-class StoreNameValuePair(argparse.Action):
-    def __call__(self, parser, namespace, values, option_string=None):
-        for val in values:
-            n, v = val.split('=')
-            setattr(namespace, n, v)
-
-
 def main():
-
-    valid_commands = CONFIG['nodes']['commands']
-    valid_commands.extend(CONFIG['services']['commands'])
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument('action', metavar='action', type=str, nargs=1, help='Command', choices=valid_commands)
-    action_arg = parser.parse_known_args()
-
+    # Get node manager
     node_manager = NodeManager()
 
-    if action_arg[0].action == ['create']:
-        parser.add_argument('name', metavar='name', type=str, nargs=1, help='Node name')
-        parser.add_argument('type', metavar='type', type=str, nargs=1, help='Node type')
-        parser.add_argument('config', nargs='*', action=StoreNameValuePair, help='Node config options')
-        args = parser.parse_args()
-        node_manager.node_create(node_name=args.name[0], node_type=args.type[0], **vars(args))
+    parser = argparse.ArgumentParser(description='Kozinaki compute node manage utility')
+    subparsers = parser.add_subparsers(help='Available actions', dest='action')
 
-    elif action_arg[0].action == ['delete']:
-        parser.add_argument('name', metavar='name', type=str, nargs=1, help='Node name')
-        args = parser.parse_args()
-        node_manager.node_delete(node_name=args.name[0])
+    # CREATE
+    parser_create = subparsers.add_parser(
+        'create',
+        description='Create compute node for cloud provider',
+        help='Create new nova compute node'
+    )
+    parser_create_subparsers = parser_create.add_subparsers(help='Available cloud providers', dest='type')
 
-    elif action_arg[0].action == ['show']:
-        parser.add_argument('type', metavar='type', type=str, nargs='?', help='Node type')
-        args = parser.parse_args()
-        if args.type:
-            table_data = [
-                ['Need to provide:']
-            ]
-            node_params = node_manager.get_node_params(node_type=args.type)
-            for param in node_params:
-                table_data.append([param])
-            table = AsciiTable(table_data)
-            print(table.table)
-        else:
-            print('Valid node types:')
-            table_data = [
-                ['Type', 'Config']
-            ]
-            for type_name, config in node_manager.valid_node_types.items():
-                table_data.append([type_name, config])
-            table = AsciiTable(table_data)
-            print(table.table)
+    # Create providers subparsers
+    for provider_name, config in node_manager.valid_node_types.items():
+        parser_create_type = parser_create_subparsers.add_parser(
+            provider_name,
+            description='Create node in {} cloud'.format(provider_name.upper()),
+            help='Create node in {} cloud'.format(provider_name.upper())
+        )
+        parser_create_type.add_argument('--name', type=str, required=True, help='Compute node name')
+        for param in node_manager.get_node_params(provider_name):
+            parser_create_type.add_argument('--{}'.format(param), type=str, required=True)
 
-    elif action_arg[0].action == ['list']:
-        all_nodes = node_manager.node_list()
-        table_data = [
-            ['Name', 'Type', 'Services']
-        ]
-        for node in all_nodes:
+    # DELETE
+    parser_delete = subparsers.add_parser(
+        'delete',
+        description='Delete compute node',
+        help='Delete compute node'
+    )
+    parser_delete.add_argument('--name', type=str, required=True, help='Compute node name')
+
+    # LIST
+    parser_node_list = subparsers.add_parser(
+        'list',
+        description='Show all created compute nodes',
+        help='Show all created compute nodes'
+    )
+
+    # COMMANDS
+    for command in CONFIG['services']['commands']:
+        parser_node_command = subparsers.add_parser(
+            command,
+            description='Pass {} command to all node services'.format(command),
+            help='Pass {} command to all node services'.format(command)
+        )
+        parser_node_command.add_argument('--name', type=str, required=True, help='Compute node name')
+
+    args = parser.parse_args()
+
+    if args.action == 'create':
+        node_manager.node_create(node_name=args.name, node_type=args.type, **vars(args))
+    elif args.action == 'delete':
+        node_manager.node_delete(node_name=args.name)
+    elif args.action == 'list':
+        table_data = [['Name', 'Type', 'Services']]
+        for node in node_manager.node_list():
             table_data.append([node.name, node.type, ','.join(service for service in node.services)])
         table = AsciiTable(table_data)
         print(table.table)
-
-    else:
-        parser.add_argument('name', metavar='name', type=str, nargs=1, help='Node name')
-        args = parser.parse_args()
-        node = node_manager.node_get(node_name=args.name[0])
-        node.command(cmd=action_arg[0].action[0])
+    elif args.action in CONFIG['services']['commands']:
+        node = node_manager.node_get(node_name=args.name)
+        node.command(cmd=args.action)
