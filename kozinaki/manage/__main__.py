@@ -26,6 +26,7 @@ def main():
         help='Create new nova compute node'
     )
     parser_create_subparsers = parser_create.add_subparsers(help='Available cloud providers', dest='type')
+    parser_create_subparsers.required = True
 
     # Create providers subparsers
     for provider_name, config in node_manager.valid_node_types.items():
@@ -77,3 +78,5 @@ def main():
     elif args.action in CONFIG['services']['commands']:
         node = node_manager.node_get(node_name=args.name)
         node.command(cmd=args.action)
+    else:
+        parser.print_help()
