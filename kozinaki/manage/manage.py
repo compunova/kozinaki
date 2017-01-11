@@ -6,7 +6,7 @@ from collections import defaultdict
 
 import yaml
 from fabric.api import local, settings
-from libcloud.compute.types import Provider
+from libcloud.compute.types import Provider, OLD_CONSTANT_TO_NEW_MAPPING
 from libcloud.compute.providers import get_driver as get_libcloud_driver
 
 from .utils import render_template, get_templates_vars, render_json_to_template
@@ -208,25 +208,49 @@ class NodeManager:
                     node_params[token] = self.valid_node_types['basic_tokens'][token]
                 else:
                     node_params[token] = 'Description not provided'
+            if n_type_name == node_type:
+                return node_params
             all_node_params[n_type_name] = node_params
 
-        # Libcloud providers
+        return all_node_params
+
+    @staticmethod
+    def _get_libcloud_providers():
+        providers = {}
         for provider_name in [item for item in vars(Provider) if not item.startswith('_')]:
-            provider_cls = get_libcloud_driver(getattr(Provider, provider_name))
+            if provider_name.lower() in OLD_CONSTANT_TO_NEW_MAPPING:
+                continue
+            try:
+                provider_cls = get_libcloud_driver(getattr(Provider, provider_name))
+            except Exception as e:
+                continue
+
             provider_cls_info = inspect.getargspec(provider_cls)
 
             node_params = defaultdict(lambda: 'Description not provided')
             for arg in provider_cls_info.args:
-                node_params[arg] = 'Description not provided'
+                if arg not in ['cls', 'self']:
+                    node_params[arg] = {
+                        'description': {
+                            'en': '',
+                            'ru': ''
+                        },
+                        'type': 'str'
+                    }
 
-            all_node_params[provider_name] = node_params
+            providers[provider_name] = {
+                'section_name': 'kozinaki_GCP',
+                'tokens': node_params
+            }
 
-        return all_node_params.get(node_type) if node_type else all_node_params
+        return providers
 
-    @staticmethod
-    def _get_valid_node_types():
+    def _get_valid_node_types(self):
         with open(os.path.join(BASE_PATH, 'providers.json'), 'r') as f:
             providers_data = json.load(f)
+
+        libcloud_providers = self._get_libcloud_providers()
+        providers_data['providers'].update(libcloud_providers)
 
         return providers_data
 
