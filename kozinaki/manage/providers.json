@@ -1,0 +1,192 @@
+{
+    "providers": {
+        "aws": {
+            "section_name": "kozinaki_AWS",
+            "tokens": {
+                "aws_access_key_id": {
+                    "description": {
+                        "ru": "Ключ доступа к AWS API",
+                        "en": "Access key to make programmatic calls to AWS"
+                    },
+                    "type": "str"
+                },
+                "aws_secret_access_key": {
+                    "description": {
+                        "ru": "Секретный ключ доступа к AWS API",
+                        "en": "Secret access key to AWS API"
+                    },
+                    "type": "str"
+                },
+                "region": {
+                    "description": {
+                        "ru": "Регион создания ресурсов",
+                        "en": "AWS region"
+                    },
+                    "type": "str"
+                }
+            }
+        },
+        "azure": {
+            "section_name": "kozinaki_AZURE",
+            "tokens": {
+                "subscription_id": {
+                    "description": {
+                        "ru": "Id подписки",
+                        "en": "User subscription id"
+                    },
+                    "type": "str"
+                },
+                "key_file": {
+                    "description": {
+                        "ru": "Файл сертификата доступа к Azure API",
+                        "en": ""
+                    },
+                    "type": "str"
+                },
+                "app_client_id": {
+                    "description": {
+                        "ru": "Ключ приложения, через которое будет осуществляться работа",
+                        "en": ""
+                    },
+                    "type": "str"
+                },
+                "app_secret": {
+                    "description": {
+                        "ru": "Секретный ключ доступа к API",
+                        "en": ""
+                    },
+                    "type": "str"
+                },
+                "app_tenant": {
+                    "description": {
+                        "ru": "Тенант, в котором находится приложение",
+                        "en": ""
+                    },
+                    "type": "str"
+                },
+                "username": {
+                    "description": {
+                        "ru": "Рут пользователь в ВМ",
+                        "en": ""
+                    },
+                    "type": "str",
+                    "default": "userlogin"
+                },
+                "password": {
+                    "description": {
+                        "ru": "Пароль рут пользователя в ВМ",
+                        "en": ""
+                    },
+                    "type": "str",
+                    "default": "r00tme"
+                },
+                "resource_group_name": {
+                    "description": {
+                        "ru": "Имя группы ресурсов, в которой будут создаваться ВМ",
+                        "en": ""
+                    },
+                    "type": "str",
+                    "default": "aw-virtual-machines"
+                },
+                "storage_account_name": {
+                    "description": {
+                        "ru": "Имя группы ресурсов, в которой будут создаваться ВМ",
+                        "en": ""
+                    },
+                    "type": "str",
+                    "default": "aw-storage"
+                },
+                "location": {
+                    "description": {
+                        "ru": "Регион создания ВМ",
+                        "en": ""
+                    },
+                    "type": "str",
+                    "default": "westeurope"
+                },
+                "os_disk_name": {
+                    "description": {
+                        "ru": "Имя диска ВМ",
+                        "en": ""
+                    },
+                    "type": "str",
+                    "default": "aw-osdisk"
+                },
+                "vnet_name": {
+                    "description": {
+                        "ru": "Имя виртуальной сети",
+                        "en": ""
+                    },
+                    "type": "str",
+                    "default": "aw-vnet"
+                },
+                "subnet_name": {
+                    "description": {
+                        "ru": "Имя виртуальной подсети",
+                        "en": ""
+                    },
+                    "type": "str",
+                    "default": "aw-subnet"
+                },
+                "ip_config_name": {
+                    "description": {
+                        "ru": "Имя виртуальной сетевой карты",
+                        "en": ""
+                    },
+                    "type": "str",
+                    "default": "aw-ip-config"
+                },
+                "nic_name": {
+                    "description": {
+                        "ru": "Имя nic",
+                        "en": ""
+                    },
+                    "type": "str",
+                    "default": "aw-nic"
+                }
+            }
+        },
+        "gcp": {
+            "section_name": "kozinaki_GCP",
+            "tokens": {
+                "path_to_json_token": {
+                    "description": {
+                        "ru": "Путь к json токену для доступа",
+                        "en": ""
+                    },
+                    "type": "str"
+                },
+                "project": {
+                    "description": {
+                        "ru": "Имя проекта",
+                        "en": ""
+                    },
+                    "type": "str"
+                },
+                "zone": {
+                    "description": {
+                        "ru": "Регион создания ресурсов",
+                        "en": ""
+                    },
+                    "type": "str"
+                }
+            }
+        }
+    },
+    "basic_tokens": {
+        "hostname": {
+            "description": {
+                "ru": "Название ноды",
+                "en": "Name of new node"
+            },
+            "type": "str"
+        },
+        "compute_driver": {
+            "description": {
+                "ru": "Compute driver",
+                "en": "Driver to use for controlling virtualization"
+            },
+            "type": "str"
+        }
+    }
+}

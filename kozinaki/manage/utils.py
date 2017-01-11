@@ -26,3 +26,16 @@ def get_templates_vars(templates):
         pc = jenv.parse(ts[0])
         vars.update(meta.find_undeclared_variables(pc))
     return vars
+
+
+def render_json_to_template(provider, token_values):
+    template_text = ''
+    if provider.get('section_name'):
+        template_text += '[{}]\n'.format(provider.get('section_name'))
+
+    for token_name, token_data in provider.get('tokens', {}).items():
+        value = token_values.get(token_name) or token_data.get('default')
+        assert value is not None
+        template_text += '{token}={value}\n'.format(token=token_name, value=value)
+
+    return template_text

@@ -1,10 +1,15 @@
 import os
 import re
+import json
+import inspect
+from collections import defaultdict
 
 import yaml
-from fabric.api import local
+from fabric.api import local, settings
+from libcloud.compute.types import Provider
+from libcloud.compute.providers import get_driver as get_libcloud_driver
 
-from .utils import render_template, get_templates_vars
+from .utils import render_template, get_templates_vars, render_json_to_template
 
 
 BASE_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -25,7 +30,8 @@ class Service:
 
     @property
     def exist(self):
-        result = local('systemctl list-unit-files', capture=True)
+        with settings(warn_only=True):
+            result = local('systemctl list-unit-files', capture=True)
         for line in result.split('\n'):
             if line.startswith(self.name):
                 return True
@@ -57,7 +63,9 @@ class Service:
         if cmd not in valid_commands:
             raise BadServiceCommand('Command "{}" not supported. Valid commands: {}'.format(cmd, valid_commands))
 
-        local('systemctl {cmd} {nova_service}'.format(cmd=cmd, nova_service=self.name))
+        with settings(warn_only=True):
+            response = local('systemctl {cmd} {nova_service}'.format(cmd=cmd, nova_service=self.name), capture=False)
+            return response
 
 
 class Node:
@@ -109,9 +117,11 @@ class Node:
                 os.remove(config_file)
 
     def command(self, cmd):
+        response = []
         for service_name, service in self.services.items():
             if service:
-                service.command(cmd)
+                response.append(service.command(cmd))
+        return response
 
     def _get_service(self, service_type):
         service = Service(node_name=self.name, service_type=service_type)
@@ -123,9 +133,8 @@ class NodeManager:
         self.valid_node_types = self._get_valid_node_types()
 
     def node_create(self, node_name, node_type, **kwargs):
-
         # Check node type
-        if node_type not in self.valid_node_types:
+        if node_type not in self.valid_node_types['providers']:
             raise NodeTypeNotFound('Node type "{}" not found. Valid types: {}'.format(node_type,
                                                                                       self.valid_node_types.keys()))
 
@@ -134,7 +143,6 @@ class NodeManager:
         if node_name in [node.name for node in enabled_nodes]:
             raise NodeAlreadyExist('Node "{}" already exist'.format(node_name))
 
-        kwargs['compute_driver'] = 'kozinaki.driver.KozinakiDriver'
         kwargs['hostname'] = node_name
         kwargs['node_type'] = node_type
 
@@ -144,9 +152,9 @@ class NodeManager:
             raise AttributeError('Too few arguments to create "{}" node. Need to provide: {}'.format(node_type,
                                                                                                      templates_vars))
 
-        kwargs['provider_config'] = render_template(
-            template=self.valid_node_types[node_type],
-            context=kwargs
+        kwargs['provider_config'] = render_json_to_template(
+            provider=self.valid_node_types['providers'][node_type],
+            token_values=kwargs
         )
 
         new_node = Node(name=node_name, node_type=node_type)
@@ -180,26 +188,47 @@ class NodeManager:
                 nodes.append(node)
         return nodes
 
-    def get_node_params(self, node_type):
+    def get_node_params(self, node_type=None):
         # Check if we got all necessary params in kwargs
         templates_vars = get_templates_vars(
             templates=[service['template'] for service_name, service in CONFIG['nodes']['services'].items()]
         )
-
-        templates_vars.update(get_templates_vars(self.valid_node_types[node_type]))
-
         # Remove hostname and provider_config form vars, because hostname == node_name
         templates_vars.remove('hostname')
         templates_vars.remove('provider_config')
-        templates_vars.remove('compute_driver')
-        return templates_vars
+
+        all_node_params = {}
+
+        for n_type_name, n_type_params in self.valid_node_types['providers'].items():
+            node_params = defaultdict(lambda: 'Description not provided')
+            node_params.update(n_type_params.get('tokens', {}))
+
+            for token in templates_vars:
+                if token in self.valid_node_types['basic_tokens']:
+                    node_params[token] = self.valid_node_types['basic_tokens'][token]
+                else:
+                    node_params[token] = 'Description not provided'
+            all_node_params[n_type_name] = node_params
+
+        # Libcloud providers
+        for provider_name in [item for item in vars(Provider) if not item.startswith('_')]:
+            provider_cls = get_libcloud_driver(getattr(Provider, provider_name))
+            provider_cls_info = inspect.getargspec(provider_cls)
+
+            node_params = defaultdict(lambda: 'Description not provided')
+            for arg in provider_cls_info.args:
+                node_params[arg] = 'Description not provided'
+
+            all_node_params[provider_name] = node_params
+
+        return all_node_params.get(node_type) if node_type else all_node_params
 
     @staticmethod
     def _get_valid_node_types():
-        node_types = {}
-        for filename in os.listdir(os.path.join(BASE_PATH, CONFIG['templates']['providers'])):
-            node_types[filename[:filename.rfind('.')]] = os.path.join(CONFIG['templates']['providers'], filename)
-        return node_types
+        with open(os.path.join(BASE_PATH, 'providers.json'), 'r') as f:
+            providers_data = json.load(f)
+
+        return providers_data
 
 
 # Compute node manager exceptions

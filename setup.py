@@ -11,7 +11,7 @@ setup(
     url='https://github.com/compunova/kozinaki.git',
     author='Compunova',
     author_email='kozinaki@compu-nova.com',
-    version='0.1.5',
+    version='0.1.6',
     long_description=readme(),
     packages=find_packages(),
     include_package_data=True,
@@ -26,6 +26,7 @@ setup(
         'Jinja2',
         'PyYAML',
         'terminaltables',
+        'apache-libcloud',
     ],
     entry_points={
         'console_scripts': [
