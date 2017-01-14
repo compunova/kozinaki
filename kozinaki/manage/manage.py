@@ -5,7 +5,7 @@ import inspect
 from collections import defaultdict
 
 import yaml
-from fabric.api import local, settings
+from fabric.api import local, settings, hide
 from libcloud.compute.types import Provider, OLD_CONSTANT_TO_NEW_MAPPING
 from libcloud.compute.providers import get_driver as get_libcloud_driver
 
@@ -31,7 +31,8 @@ class Service:
     @property
     def exist(self):
         with settings(warn_only=True):
-            result = local('systemctl list-unit-files', capture=True)
+            with hide('commands'):
+                result = local('systemctl list-unit-files', capture=True)
         for line in result.split('\n'):
             if line.startswith(self.name):
                 return True
@@ -170,8 +171,6 @@ class NodeManager:
         for node in all_nodes:
             if node.name == node_name:
                 return node
-        else:
-            raise NodeNotFound('Node "{}" not found'.format(node_name))
 
     @staticmethod
     def node_list():
@@ -249,8 +248,8 @@ class NodeManager:
         with open(os.path.join(BASE_PATH, 'providers.json'), 'r') as f:
             providers_data = json.load(f)
 
-        libcloud_providers = self._get_libcloud_providers()
-        providers_data['providers'].update(libcloud_providers)
+        # libcloud_providers = self._get_libcloud_providers()
+        # providers_data['providers'].update(libcloud_providers)
 
         return providers_data
 

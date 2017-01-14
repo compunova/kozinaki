@@ -9,3 +9,6 @@ Jinja2==2.8
 PyYAML==3.12
 terminaltables==3.1.0
 apache-libcloud==1.5
+click==6.7
+click-spinner==0.1.6
+click-didyoumean==0.0.3

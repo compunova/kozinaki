@@ -27,6 +27,9 @@ setup(
         'PyYAML',
         'terminaltables',
         'apache-libcloud',
+        'click',
+        'click-spinner',
+        'click-didyoumean'
     ],
     entry_points={
         'console_scripts': [
