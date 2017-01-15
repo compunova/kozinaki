@@ -123,7 +123,6 @@ class NodeProviderCreate(click.MultiCommand):
             if description:
                 argument_params['help'] += '{} '.format(description)
             if arg_type:
-                argument_params['type'] = getattr(sys.modules['builtins'], arg_type)
                 argument_params['help'] += '(type: {}) '.format(arg_type)
             if default:
                 argument_params.update({
