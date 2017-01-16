@@ -14,6 +14,7 @@
 from azure.provider import AzureProvider
 from aws.provider import AWSProvider
 from gcp.provider import GCPProvider
+from libcloud_driver.provider import LibCloudProvider
 
 
 def get_provider_by_name(provider_name):
@@ -23,7 +24,9 @@ def get_provider_by_name(provider_name):
         'AWS': AWSProvider,
         'GCP': GCPProvider,
     }
-    if provider_name in providers:
+    if provider_name.startswith('LC_'):
+        return LibCloudProvider()
+    elif provider_name in providers:
         return providers[provider_name]()
     else:
         raise NotImplementedError('Provider {} not implemented in driver. Available providers: {}'

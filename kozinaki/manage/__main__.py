@@ -1,6 +1,7 @@
 import os
 import sys
 import argparse
+import pkg_resources
 
 import yaml
 import libcloud
@@ -21,6 +22,72 @@ with open(os.path.join(BASE_PATH, 'config.yaml'), 'r') as conf_file:
 node_manager = NodeManager()
 
 
+# KOZINAKI CLI MAIN CLASS
+class KozinakiCLI(click.Group):
+
+    def format_version(self, ctx, formatter):
+        """Writes version."""
+        package = pkg_resources.require("kozinaki")[0]
+        text = click.style(package.project_name.capitalize(), fg='blue', bold=True)
+        text += ' ver. {}'.format(package.version)
+        text += ' ({})'.format(click.style('http://compu-nova.com/kozinaki', fg='blue', underline=True))
+        formatter.write_text(text)
+        formatter.write_paragraph()
+
+    def format_options(self, ctx, formatter):
+        """Writes all the options into the formatter if they exist."""
+        opts = []
+        for param in self.get_params(ctx):
+            rv = param.get_help_record(ctx)
+            if rv is not None:
+                opts.append(rv)
+
+        if opts:
+            with formatter.section(click.style('Optional arguments', fg='green')):
+                formatter.write_dl(opts)
+
+    def format_commands(self, ctx, formatter):
+        """Extra format methods for multi methods that adds all the commands
+                after the options.
+                """
+        rows = []
+        for subcommand in self.list_commands(ctx):
+            cmd = self.get_command(ctx, subcommand)
+            # What is this, the tool lied about a command.  Ignore it
+            if cmd is None:
+                continue
+
+            help = cmd.short_help or ''
+            rows.append((subcommand, help))
+
+        if rows:
+            with formatter.section(click.style('Positional arguments', fg='green')):
+                formatter.write_dl(rows)
+
+    def format_usage(self, ctx, formatter):
+        """Writes the usage line into the formatter."""
+        pieces = self.collect_usage_pieces(ctx)
+        usage_prefix = '{}: '.format(click.style('Usage', fg='green'))
+        formatter.write_usage(ctx.command_path, ' '.join(pieces), prefix=usage_prefix)
+
+    def format_help(self, ctx, formatter):
+        """Writes the help into the formatter if it exists.
+
+        This calls into the following methods:
+
+        -   :meth:`format_usage`
+        -   :meth:`format_help_text`
+        -   :meth:`format_options`
+        -   :meth:`format_epilog`
+        """
+        self.format_version(ctx, formatter)
+        self.format_usage(ctx, formatter)
+        self.format_help_text(ctx, formatter)
+        self.format_commands(ctx, formatter)
+        self.format_options(ctx, formatter)
+        self.format_epilog(ctx, formatter)
+
+
 # NODE COMMANDS
 class NodeCommand(click.MultiCommand):
     def list_commands(self, ctx):
@@ -37,15 +104,15 @@ class NodeCommand(click.MultiCommand):
         cmd = click.Command(
             name=cmd_action,
             params=[option_name],
-            help='{} all node services'.format(cmd_action.capitalize()),
+            help="{} all node's services".format(cmd_action.capitalize()),
             callback=self.cmd_callback
         )
 
         return cmd
 
-    def cmd_callback(self, names_set):
+    def cmd_callback(self, name):
         ctx = click.get_current_context()
-        for node_name in names_set:
+        for node_name in name:
             node = node_manager.node_get(node_name=node_name)
             if node:
                 response = node.command(cmd=ctx.command.name)
@@ -59,7 +126,6 @@ class NodeCommand(click.MultiCommand):
 class NodeProviderCreate(click.MultiCommand):
     def __init__(self, **attrs):
         super(NodeProviderCreate, self).__init__(**attrs)
-        self.spinner = click_spinner.Spinner()
 
     def format_commands(self, ctx, formatter):
         """Extra format methods for multi methods that adds all the commands after the options."""
@@ -95,18 +161,19 @@ class NodeProviderCreate(click.MultiCommand):
                                                        fg='yellow')):
                         formatter.write_dl(sorted(libcloud_providers))
 
-        self.spinner.stop()
-
     def list_commands(self, ctx):
-        self.spinner.start()
         return node_manager.valid_node_types['providers'].keys()
 
     def get_command(self, ctx, name):
-        cmd = self.create_command(name)
-        return cmd
+        with click_spinner.spinner():
+            cmd = self.create_command(name)
+            return cmd
 
     def create_command(self, provider_name):
-        config = node_manager.valid_node_types['providers'][provider_name]
+        config = node_manager.valid_node_types['providers'].get(provider_name)
+
+        if not config:
+            return
 
         provider_options = [
             click.Option(param_decls=['--name'], help='Compute node name', required=True)
@@ -153,15 +220,18 @@ class NodeProviderCreate(click.MultiCommand):
     def create_node_callback(self, name, compute_driver, **kwargs):
         with click_spinner.spinner():
             ctx = click.get_current_context()
-            print(name, compute_driver, kwargs)
-            print(ctx.command.name)
-            # node_manager.node_create(node_name=node_name, node_type=ctx.command.name, **vars(kwargs))
+            node_manager.node_create(node_name=name, node_type=ctx.command.name,
+                                     compute_driver=compute_driver, **kwargs)
 
 
-@click.group(context_settings=CONTEXT_SETTINGS)
+@click.group(cls=KozinakiCLI, context_settings=CONTEXT_SETTINGS)
 @click.version_option()
 @click.option('--verbose', '-v', is_flag=True, help="Will print verbose messages.")
 def main(verbose):
+    """Command-line interface to manage cloud provider nodes for the Kozinaki driver.
+    A node is a collection of OpenStack service instances responsible for interaction with the cloud provider's API.
+    There could be multiple nodes created for the same cloud provider with different parameters.
+    """
     pass
 
 
@@ -183,15 +253,15 @@ def create():
 
 @main.command()
 @click.confirmation_option()
-@click.argument('name')
-def delete(name):
+@click.argument('node-name')
+def delete(node_name):
     """Delete compute node"""
-    click.echo(name)
+    node_manager.node_delete(node_name=node_name)
 
 
-@main.group('cmd', cls=NodeCommand)
+@main.group('send', cls=NodeCommand)
 def node_commands():
-    """Send command to node services"""
+    """Send command(s) to a compute node's services"""
     pass
 
 

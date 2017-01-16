@@ -150,8 +150,8 @@ class NodeManager:
         # Check if we got all necessary params in kwargs
         templates_vars = self.get_node_params(node_type)
         if not all([var in kwargs for var in templates_vars]):
-            raise AttributeError('Too few arguments to create "{}" node. Need to provide: {}'.format(node_type,
-                                                                                                     templates_vars))
+            raise AttributeError('Too few arguments to create "{}" node. Need to provide: {}'
+                                 .format(node_type, templates_vars.keys()))
 
         kwargs['provider_config'] = render_json_to_template(
             provider=self.valid_node_types['providers'][node_type],

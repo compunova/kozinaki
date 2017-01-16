@@ -176,7 +176,7 @@
             }
         },
         "AZURE": {
-            "section_name": "kozinaki_AZURE",
+            "section_name": "kozinaki_LC_AZURE",
             "description": "Microsoft Azure Classic",
             "tokens": {
                 "subscription_id": {
@@ -194,7 +194,7 @@
             }
         },
         "AZURE_ARM": {
-            "section_name": "kozinaki_AZURE_ARM",
+            "section_name": "kozinaki_LC_AZURE_ARM",
             "description": "Microsoft Azure ARM",
             "tokens": {
                 "tenant_id": {
@@ -254,7 +254,7 @@
             }
         },
         "ABIQUO": {
-            "section_name": "kozinaki_ABIQUO",
+            "section_name": "kozinaki_LC_ABIQUO",
             "description": "Abiquo",
             "tokens": {
                 "user_id": {
@@ -278,7 +278,7 @@
             }
         },
         "ALIYUN_ECS": {
-            "section_name": "kozinaki_ALIYUN_ECS",
+            "section_name": "kozinaki_LC_ALIYUN_ECS",
             "description": "Alibaba Cloud",
             "tokens": {
                 "key": {
@@ -326,7 +326,7 @@
             }
         },
         "AURORACOMPUTE": {
-            "section_name": "kozinaki_AURORACOMPUTE",
+            "section_name": "kozinaki_LC_AURORACOMPUTE",
             "description": "PCextreme Aurora Compute",
             "tokens": {
                 "key": {
@@ -368,7 +368,7 @@
             }
         },
         "BLUEBOX": {
-            "section_name": "kozinaki_BLUEBOX",
+            "section_name": "kozinaki_LC_BLUEBOX",
             "description": "IBM BlueBox",
             "tokens": {
                 "key": {
@@ -416,7 +416,7 @@
             }
         },
         "BRIGHTBOX": {
-            "section_name": "kozinaki_BRIGHTBOX",
+            "section_name": "kozinaki_LC_BRIGHTBOX",
             "description": "Brightbox",
             "tokens": {
                 "key": {
@@ -459,7 +459,7 @@
             }
         },
         "BSNL": {
-            "section_name": "kozinaki_BSNL",
+            "section_name": "kozinaki_LC_BSNL",
             "description": "BSNL",
             "tokens": {
                 "key": {
@@ -508,7 +508,7 @@
             }
         },
         "CLOUDSIGMA": {
-            "section_name": "kozinaki_CLOUDSIGMA",
+            "section_name": "kozinaki_LC_CLOUDSIGMA",
             "description": "CloudSigma",
             "tokens": {
                 "key": {
@@ -551,7 +551,7 @@
             }
         },
         "CLOUDSCALE": {
-            "section_name": "kozinaki_CLOUDSCALE",
+            "section_name": "kozinaki_LC_CLOUDSCALE",
             "description": "CloudScale",
             "tokens": {
                 "key": {
@@ -563,7 +563,7 @@
             }
         },
         "CLOUDSTACK": {
-            "section_name": "kozinaki_CLOUDSTACK",
+            "section_name": "kozinaki_LC_CLOUDSTACK",
             "description": "CloudStack",
             "tokens": {
                 "key": {
@@ -617,7 +617,7 @@
             }
         },
         "CLOUDWATT": {
-            "section_name": "kozinaki_CLOUDWATT",
+            "section_name": "kozinaki_LC_CLOUDWATT",
             "description": "cloudwatt",
             "tokens": {
                 "key": {
@@ -660,7 +660,7 @@
             }
         },
         "DIGITAL_OCEAN": {
-            "section_name": "kozinaki_DIGITAL_OCEAN",
+            "section_name": "kozinaki_LC_DIGITAL_OCEAN",
             "description": "DigitalOcean",
             "tokens": {
                 "key": {
@@ -685,7 +685,7 @@
             }
         },
         "DIMENSIONDATA": {
-            "section_name": "kozinaki_DIMENSIONDATA",
+            "section_name": "kozinaki_LC_DIMENSIONDATA",
             "description": "Dimension Data",
             "tokens": {
                 "key": {
@@ -734,7 +734,7 @@
             }
         },
         "EC2": {
-            "section_name": "kozinaki_EC2",
+            "section_name": "kozinaki_LC_EC2",
             "description": "Amazon Elastic Compute Cloud (EC2)",
             "tokens": {
                 "key": {
@@ -749,41 +749,17 @@
                         "en": ""
                     }
                 },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
                 "region": {
                     "description": {
                         "ru": "",
                         "en": ""
                     },
                     "default": "us-east-1"
-                },
-                "token": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
                 }
             }
         },
         "ECP": {
-            "section_name": "kozinaki_ECP",
+            "section_name": "kozinaki_LC_ECP",
             "description": "Virustream Cloud",
             "tokens": {
                 "key": {
@@ -831,7 +807,7 @@
             }
         },
         "ELASTICHOSTS": {
-            "section_name": "kozinaki_ELASTICHOSTS",
+            "section_name": "kozinaki_LC_ELASTICHOSTS",
             "description": "ElasticHosts",
             "tokens": {
                 "key": {
@@ -874,7 +850,7 @@
             }
         },
         "EUCALYPTUS": {
-            "section_name": "kozinaki_EUCALYPTUS",
+            "section_name": "kozinaki_LC_EUCALYPTUS",
             "description": "Eucalyptus",
             "tokens": {
                 "key": {
@@ -923,7 +899,7 @@
             }
         },
         "EXOSCALE": {
-            "section_name": "kozinaki_EXOSCALE",
+            "section_name": "kozinaki_LC_EXOSCALE",
             "description": "Exoscale",
             "tokens": {
                 "key": {
@@ -977,7 +953,7 @@
             }
         },
         "GANDI": {
-            "section_name": "kozinaki_GANDI",
+            "section_name": "kozinaki_LC_GANDI",
             "description": "Gandi SAS",
             "tokens": {
                 "args": {
@@ -989,7 +965,7 @@
             }
         },
         "GCE": {
-            "section_name": "kozinaki_GCE",
+            "section_name": "kozinaki_LC_GCE",
             "description": "Google Compute Engine",
             "tokens": {
                 "user_id": {
@@ -1037,7 +1013,7 @@
             }
         },
         "GOGRID": {
-            "section_name": "kozinaki_GOGRID",
+            "section_name": "kozinaki_LC_GOGRID",
             "description": "Datapipe (former GoGrid)",
             "tokens": {
                 "args": {
@@ -1049,7 +1025,7 @@
             }
         },
         "HOSTVIRTUAL": {
-            "section_name": "kozinaki_HOSTVIRTUAL",
+            "section_name": "kozinaki_LC_HOSTVIRTUAL",
             "description": "HostVirtual AnyCast Cloud",
             "tokens": {
                 "key": {
@@ -1079,7 +1055,7 @@
             }
         },
         "IKOULA": {
-            "section_name": "kozinaki_IKOULA",
+            "section_name": "kozinaki_LC_IKOULA",
             "description": "IKOULA",
             "tokens": {
                 "key": {
@@ -1133,7 +1109,7 @@
             }
         },
         "INDOSAT": {
-            "section_name": "kozinaki_INDOSAT",
+            "section_name": "kozinaki_LC_INDOSAT",
             "description": "Indosat Cloud",
             "tokens": {
                 "key": {
@@ -1182,7 +1158,7 @@
             }
         },
         "INTERNETSOLUTIONS": {
-            "section_name": "kozinaki_INTERNETSOLUTIONS",
+            "section_name": "kozinaki_LC_INTERNETSOLUTIONS",
             "description": "Internet Solution",
             "tokens": {
                 "key": {
@@ -1231,7 +1207,7 @@
             }
         },
         "JOYENT": {
-            "section_name": "kozinaki_JOYENT",
+            "section_name": "kozinaki_LC_JOYENT",
             "description": "Joyent",
             "tokens": {
                 "key": {
@@ -1274,7 +1250,7 @@
             }
         },
         "KTUCLOUD": {
-            "section_name": "kozinaki_KTUCLOUD",
+            "section_name": "kozinaki_LC_KTUCLOUD",
             "description": "KT ucloud biz",
             "tokens": {
                 "key": {
@@ -1328,7 +1304,7 @@
             }
         },
         "LIBVIRT": {
-            "section_name": "kozinaki_LIBVIRT",
+            "section_name": "kozinaki_LC_LIBVIRT",
             "description": "LibVirt",
             "tokens": {
                 "uri": {
@@ -1352,7 +1328,7 @@
             }
         },
         "LINODE": {
-            "section_name": "kozinaki_LINODE",
+            "section_name": "kozinaki_LC_LINODE",
             "description": "Linode",
             "tokens": {
                 "key": {
@@ -1364,7 +1340,7 @@
             }
         },
         "MEDONE": {
-            "section_name": "kozinaki_MEDONE",
+            "section_name": "kozinaki_LC_MEDONE",
             "description": "MedOne",
             "tokens": {
                 "key": {
@@ -1413,7 +1389,7 @@
             }
         },
         "NEPHOSCALE": {
-            "section_name": "kozinaki_NEPHOSCALE",
+            "section_name": "kozinaki_LC_NEPHOSCALE",
             "description": "NephoScale",
             "tokens": {
                 "key": {
@@ -1461,7 +1437,7 @@
             }
         },
         "NIMBUS": {
-            "section_name": "kozinaki_NIMBUS",
+            "section_name": "kozinaki_LC_NIMBUS",
             "description": "Nimbus",
             "tokens": {
                 "key": {
@@ -1509,7 +1485,7 @@
             }
         },
         "NTTA": {
-            "section_name": "kozinaki_NTTA",
+            "section_name": "kozinaki_LC_NTTA",
             "description": "NTT America Cloud",
             "tokens": {
                 "key": {
@@ -1558,7 +1534,7 @@
             }
         },
         "OPENNEBULA": {
-            "section_name": "kozinaki_OPENNEBULA",
+            "section_name": "kozinaki_LC_OPENNEBULA",
             "description": "OpenNebula",
             "tokens": {
                 "key": {
@@ -1583,7 +1559,7 @@
             }
         },
         "OPENSTACK": {
-            "section_name": "kozinaki_OPENSTACK",
+            "section_name": "kozinaki_LC_OPENSTACK",
             "description": "OpenStack",
             "tokens": {
                 "key": {
@@ -1626,7 +1602,7 @@
             }
         },
         "OUTSCALE_INC": {
-            "section_name": "kozinaki_OUTSCALE_INC",
+            "section_name": "kozinaki_LC_OUTSCALE_INC",
             "description": "Outscale Inc. (US)",
             "tokens": {
                 "key": {
@@ -1675,7 +1651,7 @@
             }
         },
         "OUTSCALE_SAS": {
-            "section_name": "kozinaki_OUTSCALE_SAS",
+            "section_name": "kozinaki_LC_OUTSCALE_SAS",
             "description": "Outscale SAS",
             "tokens": {
                 "key": {
@@ -1724,7 +1700,7 @@
             }
         },
         "OVH": {
-            "section_name": "kozinaki_OVH",
+            "section_name": "kozinaki_LC_OVH",
             "description": "OVH",
             "tokens": {
                 "key": {
@@ -1754,7 +1730,7 @@
             }
         },
         "PACKET": {
-            "section_name": "kozinaki_PACKET",
+            "section_name": "kozinaki_LC_PACKET",
             "description": "Packet",
             "tokens": {
                 "key": {
@@ -1802,7 +1778,7 @@
             }
         },
         "PROFIT_BRICKS": {
-            "section_name": "kozinaki_PROFIT_BRICKS",
+            "section_name": "kozinaki_LC_PROFIT_BRICKS",
             "description": "Profit Bricks",
             "tokens": {
                 "key": {
@@ -1850,7 +1826,7 @@
             }
         },
         "RACKSPACE": {
-            "section_name": "kozinaki_RACKSPACE",
+            "section_name": "kozinaki_LC_RACKSPACE",
             "description": "Rackspace (Next Gen)",
             "tokens": {
                 "key": {
@@ -1893,7 +1869,7 @@
             }
         },
         "RACKSPACE_FIRST_GEN": {
-            "section_name": "kozinaki_RACKSPACE_FIRST_GEN",
+            "section_name": "kozinaki_LC_RACKSPACE_FIRST_GEN",
             "description": "RackSpace (First Gen)",
             "tokens": {
                 "key": {
@@ -1936,7 +1912,7 @@
             }
         },
         "RIMUHOSTING": {
-            "section_name": "kozinaki_RIMUHOSTING",
+            "section_name": "kozinaki_LC_RIMUHOSTING",
             "description": "RimuHosting",
             "tokens": {
                 "key": {
@@ -1974,7 +1950,7 @@
             }
         },
         "SERVERLOVE": {
-            "section_name": "kozinaki_SERVERLOVE",
+            "section_name": "kozinaki_LC_SERVERLOVE",
             "description": "ServerLove",
             "tokens": {
                 "key": {
@@ -2022,7 +1998,7 @@
             }
         },
         "SKALICLOUD": {
-            "section_name": "kozinaki_SKALICLOUD",
+            "section_name": "kozinaki_LC_SKALICLOUD",
             "description": "SCALICloud",
             "tokens": {
                 "key": {
@@ -2070,7 +2046,7 @@
             }
         },
         "SOFTLAYER": {
-            "section_name": "kozinaki_SOFTLAYER",
+            "section_name": "kozinaki_LC_SOFTLAYER",
             "description": "IBM SoftLayer",
             "tokens": {
                 "key": {
@@ -2118,7 +2094,7 @@
             }
         },
         "TERREMARK": {
-            "section_name": "kozinaki_TERREMARK",
+            "section_name": "kozinaki_LC_TERREMARK",
             "description": "Verizon Cloud Solutions (former Terremark)",
             "tokens": {
                 "key": {
@@ -2161,7 +2137,7 @@
             }
         },
         "VCL": {
-            "section_name": "kozinaki_VCL",
+            "section_name": "kozinaki_LC_VCL",
             "description": "Apache VCL",
             "tokens": {
                 "key": {
@@ -2203,7 +2179,7 @@
             }
         },
         "VCLOUD": {
-            "section_name": "kozinaki_VCLOUD",
+            "section_name": "kozinaki_LC_VCLOUD",
             "description": "VMware vCloud",
             "tokens": {
                 "key": {
@@ -2246,7 +2222,7 @@
             }
         },
         "VOXEL": {
-            "section_name": "kozinaki_VOXEL",
+            "section_name": "kozinaki_LC_VOXEL",
             "description": "INAP (former Voxel)",
             "tokens": {
                 "key": {
@@ -2294,7 +2270,7 @@
             }
         },
         "VPSNET": {
-            "section_name": "kozinaki_VPSNET",
+            "section_name": "kozinaki_LC_VPSNET",
             "description": "VPS.NET",
             "tokens": {
                 "key": {
@@ -2342,7 +2318,7 @@
             }
         },
         "VULTR": {
-            "section_name": "kozinaki_VULTR",
+            "section_name": "kozinaki_LC_VULTR",
             "description": "Vultr",
             "tokens": {
                 "key": {
@@ -2390,7 +2366,7 @@
             }
         },
         "KILI": {
-            "section_name": "kozinaki_KILI",
+            "section_name": "kozinaki_LC_KILI",
             "description": "Kili",
             "tokens": {
                 "key": {
@@ -2433,7 +2409,7 @@
             }
         },
         "ONAPP": {
-            "section_name": "kozinaki_ONAPP",
+            "section_name": "kozinaki_LC_ONAPP",
             "description": "ONAPP",
             "tokens": {
                 "key": {
