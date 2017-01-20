@@ -57,7 +57,7 @@ class GCPProvider(BaseProvider):
 
     def __init__(self):
         super(GCPProvider, self).__init__()
-        self.name = 'GPC'
+        self.name = 'GCP'
         self.config_name = 'kozinaki_' + self.name
         self.vm_prefix = 'kozinaki-'
         self.driver = self.get_driver()

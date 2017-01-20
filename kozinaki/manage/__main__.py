@@ -99,7 +99,7 @@ class NodeCommand(click.MultiCommand):
 
     def create_cmd(self, cmd_action):
 
-        option_name = click.Argument(['name'], nargs=-1)
+        option_name = click.Argument(['name'], nargs=-1, required=True)
 
         cmd = click.Command(
             name=cmd_action,

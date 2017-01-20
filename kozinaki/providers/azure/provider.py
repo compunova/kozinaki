@@ -36,13 +36,13 @@ LOG = logging.getLogger(__name__)
 haikunator = Haikunator()
 
 VM_REFERENCE = {
-    'UbuntuServer': {
+    'UbuntuServer_16.04.0-LTS_latest': {
         'publisher': 'Canonical',
         'offer': 'UbuntuServer',
         'sku': '16.04.0-LTS',
         'version': 'latest'
     },
-    'windows': {
+    'WindowsServerEssentials_WindowsServerEssentials_latest': {
         'publisher': 'MicrosoftWindowsServerEssentials',
         'offer': 'WindowsServerEssentials',
         'sku': 'WindowsServerEssentials',
@@ -174,7 +174,9 @@ class AzureProvider(BaseProvider):
             node_name,
             vm_parameters
         )
-        LOG.info("CREATE NODE result: {}".format(async_vm_creation))
+        async_vm_creation.wait()
+        LOG.info("CREATE NODE result: {}".format(async_vm_creation.result()))
+        return async_vm_creation
 
     def _create_vm_parameters(self, vm_name, vm_size, nic_id, vm_reference, config=None):
         """Create the VM parameters structure"""

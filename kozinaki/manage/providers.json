@@ -80,7 +80,7 @@
                         "en": ""
                     },
                     "type": "str",
-                    "default": "r00tme"
+                    "default": "Tempr00t"
                 },
                 "resource_group_name": {
                     "description": {
@@ -96,7 +96,7 @@
                         "en": ""
                     },
                     "type": "str",
-                    "default": "aw-storage"
+                    "default": "kozinakiawstorage"
                 },
                 "location": {
                     "description": {
