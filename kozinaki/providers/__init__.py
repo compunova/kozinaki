@@ -25,7 +25,7 @@ def get_provider_by_name(provider_name):
         'GCP': GCPProvider,
     }
     if provider_name.startswith('LC_'):
-        return LibCloudProvider()
+        return LibCloudProvider(provider_name)
     elif provider_name in providers:
         return providers[provider_name]()
     else:

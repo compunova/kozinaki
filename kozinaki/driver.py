@@ -85,7 +85,7 @@ class KozinakiDriver(driver.ComputeDriver):
         return
 
     def _configured_providers(self):
-        providers_sections = [section.split('_')[1] for section in
+        providers_sections = [section[9:] for section in
                               CONF.list_all_sections() if section.startswith('kozinaki_')]
         return providers_sections
 

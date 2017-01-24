@@ -29,26 +29,29 @@ LOG = logging.getLogger(__name__)
 
 
 POWER_STATE_MAP = {
-    0:  power_state.NOSTATE,
-    16: power_state.RUNNING,
-    32: power_state.NOSTATE,
-    48: power_state.SHUTDOWN,
-    64: power_state.NOSTATE,
-    80: power_state.SHUTDOWN,
-    # power_state.PAUSED,
-    # power_state.CRASHED,
-    # power_state.STATE_MAP,
-    # power_state.SUSPENDED,
+    'running': power_state.RUNNING,
+    'starting': power_state.NOSTATE,
+    'rebooting': power_state.NOSTATE,
+    'terminated': power_state.NOSTATE,
+    'pending': power_state.NOSTATE,
+    'unknown': power_state.NOSTATE,
+    'stopping': power_state.NOSTATE,
+    'stopped': power_state.SHUTDOWN,
+    'suspended': power_state.SUSPENDED,
+    'error': power_state.CRASHED,
+    'paused': power_state.PAUSED,
+    'reconfiguring': power_state.NOSTATE,
+    'migrating': power_state.NOSTATE,
 }
 
 
 class LibCloudProvider(BaseProvider):
 
-    def __init__(self):
+    def __init__(self, name):
         super(LibCloudProvider, self).__init__()
-        self.name = 'LIBCLOUD'
+        self.name = name
         self.config_name = 'kozinaki_' + self.name
-        self.provider_name = None
+        self.provider_name = self.name[3:]
         self.driver = self.get_driver()
         self._mounts = {}
 
@@ -57,9 +60,9 @@ class LibCloudProvider(BaseProvider):
 
         provider_cls = get_libcloud_driver(getattr(Provider, self.provider_name))
 
-        provider_cls_info = inspect.getargspec(provider_cls)
+        provider_cls_info = inspect.getargspec(provider_cls.__init__)
 
-        driver = provider_cls(**{arg: value for arg, value in config.items() if arg in provider_cls_info.args})
+        driver = provider_cls(**{arg: value for arg, value in config.items() if arg in provider_cls_info.args and value is not None})
         return driver
 
     def load_config(self):
@@ -70,14 +73,12 @@ class LibCloudProvider(BaseProvider):
             user=AKIAJR7NAEIZPWSTFBEQ
             key=zv9zSem8OE+k/axFkPCgZ3z3tLrhvFBaIIa0Ik0j
         """
-        if not self.provider_name:
-            cfg.CONF.register_opt(opt=cfg.StrOpt('provider_name'), group=self.config_name)
-            self.provider_name = cfg.CONF[self.config_name]['provider_name']
 
         provider_cls = get_libcloud_driver(getattr(Provider, self.provider_name))
-        provider_cls_info = inspect.getargspec(provider_cls)
+        provider_cls_info = inspect.getargspec(provider_cls.__init__)
 
         provider_opts = [cfg.StrOpt(arg) for arg in provider_cls_info.args]
+        provider_opts.append(cfg.StrOpt('location'))
 
         cfg.CONF.register_opts(provider_opts, self.config_name)
         return cfg.CONF[self.config_name]
@@ -95,12 +96,33 @@ class LibCloudProvider(BaseProvider):
             'MaxCount': 1
         }
 
+        # Find image
+        for image in self.driver.list_images():
+            if image.id == image_id:
+                break
+        else:
+            raise Exception('Image with id "{}" not found'.format(image_id))
+
+        # Find size
+        for size in self.driver.list_sizes():
+            if size.id == flavor_name:
+                break
+        else:
+            raise Exception('Flavor with id "{}" not found'.format(flavor_name))
+
+        # Find location
+        for location in self.driver.list_locations():
+            if location.id == config['location']:
+                break
+        else:
+            raise Exception('Location with id "{}" not found'.format(config['location']))
+
         instance = self.driver.create_node(
-            name=image_id,
-            size=flavor_name,
-            image=image_id,
-            location=config['location']
-        )
+                name=instance.uuid,
+                size=size,
+                image=image,
+                location=location
+            )
         return instance
 
     def list_nodes(self):
@@ -134,7 +156,7 @@ class LibCloudProvider(BaseProvider):
         node = self._get_node_by_uuid(instance.uuid)
 
         if node:
-            node_power_state = POWER_STATE_MAP[node.state['Code']]
+            node_power_state = POWER_STATE_MAP[node.state]
             node_id = node.id
         else:
             node_power_state = power_state.NOSTATE

@@ -669,11 +669,12 @@
                         "en": ""
                     }
                 },
-                "secret": {
+                "location": {
                     "description": {
                         "ru": "",
                         "en": ""
-                    }
+                    },
+                    "default": "ams2"
                 },
                 "api_version": {
                     "description": {
