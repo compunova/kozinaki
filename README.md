@@ -7,20 +7,21 @@ Kozinaki is completely pluggable into OpenStack without requiring any change to 
 
 # Supported functionality
 
-Supported function   | Nova command  | AWS | Azure             | GCP |
--------------------- | :-----------: | :-: | :---------------: | :-: |
-Create               | boot          |  +  | +                 |  +  |
-Delete               | delete        |  +  | +                 |  +  |
-Stop                 | stop          |  +  | +                 |  +  |
-Start                | start         |  +  | +                 |  +  |
-Reboot               | reboot        |  +  | +                 |  +  |
-Get instance details | show          |  +  | +                 |  +  |
-List instances       | list          |  +  | +                 |  +  |
-Create snapshot      | image-create  |  +  | not supported     |  +  |
-Resize               | resize        |  +  | not supported     |  +  |
-Add disk             | volume-attach |  +  | in progress       |  +  |
-Remove disk          | volume-detach |  +  | in progress       |  +  |
+Supported function   | Nova command  | AWS | Azure             | GCP | Libcloud providers\* |
+-------------------- | :-----------: | :-: | :---------------: | :-: | :----------------: |
+Create               | boot          |  +  | +                 |  +  | +                  |
+Delete               | delete        |  +  | +                 |  +  | +                  |
+Stop                 | stop          |  +  | +                 |  +  | +                  |
+Start                | start         |  +  | +                 |  +  | +                  |
+Reboot               | reboot        |  +  | +                 |  +  | +                  |
+Get instance details | show          |  +  | +                 |  +  | +                  |
+List instances       | list          |  +  | +                 |  +  | +                  |
+Create snapshot      | image-create  |  +  | not supported     |  +  | in progress        |
+Resize               | resize        |  +  | not supported     |  +  | in progress        |
+Add disk             | volume-attach |  +  | in progress       |  +  | in progress        |
+Remove disk          | volume-detach |  +  | in progress       |  +  | in progress        |
 
+\* [Supported Libcloud providers](https://libcloud.readthedocs.io/en/latest/supported_providers.html)
 
 # Kozinaki support
 
