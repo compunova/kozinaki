@@ -88,40 +88,33 @@ class LibCloudProvider(BaseProvider):
         image_id = getattr(image_meta.properties, 'os_distro')
         flavor_name = instance.flavor['name']
 
-        image_config = {
-            'ImageId': image_id,
-            'InstanceType': flavor_name,
-            'MinCount': 1,
-            'MaxCount': 1
-        }
+        node_config = {'name': instance.uuid}
 
         # Find image
         for image in self.driver.list_images():
             if image.id == image_id:
+                node_config['image'] = image
                 break
         else:
-            raise Exception('Image with id "{}" not found'.format(image_id))
+            LOG.info('Image with id "{}" not found'.format(image_id))
 
         # Find size
         for size in self.driver.list_sizes():
             if size.id == flavor_name:
+                node_config['size'] = size
                 break
         else:
-            raise Exception('Flavor with id "{}" not found'.format(flavor_name))
+            LOG.info('Flavor with id "{}" not found'.format(flavor_name))
 
         # Find location
         for location in self.driver.list_locations():
             if location.id == config['location']:
+                node_config['location'] = location
                 break
         else:
-            raise Exception('Location with id "{}" not found'.format(config['location']))
+            LOG.info('Location with id "{}" not found'.format(config['location']))
 
-        instance = self.driver.create_node(
-                name=instance.uuid,
-                size=size,
-                image=image,
-                location=location
-            )
+        instance = self.driver.create_node(**node_config)
         return instance
 
     def list_nodes(self):
