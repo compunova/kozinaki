@@ -15,7 +15,9 @@
 import logging
 import inspect
 
+import libcloud
 from libcloud.compute.types import Provider
+from libcloud.compute.base import NodeAuthPassword
 from libcloud.compute.providers import get_driver as get_libcloud_driver
 from oslo_config import cfg
 from nova.compute import power_state
@@ -23,9 +25,10 @@ from nova.compute import power_state
 from ..common import BaseProvider
 from .extended_drivers import get_extended_driver
 
-
 LOG = logging.getLogger(__name__)
 
+# Disable SSL check
+libcloud.security.VERIFY_SSL_CERT = False
 
 POWER_STATE_MAP = {
     'running': power_state.RUNNING,
@@ -45,7 +48,6 @@ POWER_STATE_MAP = {
 
 
 class LibCloudProvider(BaseProvider):
-
     def __init__(self, name):
         super(LibCloudProvider, self).__init__()
         self.name = name
@@ -61,7 +63,8 @@ class LibCloudProvider(BaseProvider):
 
         provider_cls_info = inspect.getargspec(provider_cls.__init__)
 
-        driver = provider_cls(**{arg: value for arg, value in config.items() if arg in provider_cls_info.args and value is not None})
+        driver = provider_cls(
+            **{arg: value for arg, value in config.items() if arg in provider_cls_info.args and value is not None})
         return driver
 
     def load_config(self):
@@ -84,6 +87,7 @@ class LibCloudProvider(BaseProvider):
 
     def create_node(self, instance, image_meta, *args, **kwargs):
         config = self.load_config()
+
         # Get info
         image_id = getattr(image_meta.properties, 'os_distro')
         flavor_name = instance.flavor['name']
@@ -96,7 +100,7 @@ class LibCloudProvider(BaseProvider):
                 node_config['image'] = image
                 break
         else:
-            LOG.info('Image with id "{}" not found'.format(image_id))
+            Exception('Image with id "{}" not found'.format(image_id))
 
         # Find size
         for size in self.driver.list_sizes():
@@ -104,7 +108,7 @@ class LibCloudProvider(BaseProvider):
                 node_config['size'] = size
                 break
         else:
-            LOG.info('Flavor with id "{}" not found'.format(flavor_name))
+            Exception('Flavor with id "{}" not found'.format(flavor_name))
 
         # Find location
         for location in self.driver.list_locations():
@@ -112,7 +116,13 @@ class LibCloudProvider(BaseProvider):
                 node_config['location'] = location
                 break
         else:
-            LOG.info('Location with id "{}" not found'.format(config['location']))
+            Exception('Location with id "{}" not found'.format(config['location']))
+
+        # Root password
+        try:
+            node_config['auth'] = NodeAuthPassword(config.get('root_password'))
+        except cfg.NoSuchOptError:
+            pass
 
         instance = self.driver.create_node(**node_config)
         return instance
@@ -155,12 +165,12 @@ class LibCloudProvider(BaseProvider):
             node_id = 0
 
         node_info = {
-            'state':        node_power_state,
-            'max_mem_kb':   0,  # '(int) the maximum memory in KBytes allowed',
-            'mem_kb':       0,  # '(int) the memory in KBytes used by the instance',
-            'num_cpu':      0,  # '(int) the number of virtual CPUs for the instance',
-            'cpu_time_ns':  0,  # '(int) the CPU time used in nanoseconds',
-            'id':           node_id
+            'state': node_power_state,
+            'max_mem_kb': 0,  # '(int) the maximum memory in KBytes allowed',
+            'mem_kb': 0,  # '(int) the memory in KBytes used by the instance',
+            'num_cpu': 0,  # '(int) the number of virtual CPUs for the instance',
+            'cpu_time_ns': 0,  # '(int) the CPU time used in nanoseconds',
+            'id': node_id
         }
 
         return node_info
@@ -211,7 +221,10 @@ class LibCloudProvider(BaseProvider):
     def _get_node_by_uuid(self, uuid):
         nodes = self.list_nodes()
         for node in nodes:
-            if node.name == uuid:
+            # Some providers limit node name. For example - Linode (32 symbols).
+            #   node.name   ->  'cd87279c-308a-4a3d-94d9-0ed1912f'
+            #   uuid        ->  'cd87279c-308a-4a3d-94d9-0ed1912f06a1'
+            if node.name in uuid:
                 return node
 
     def _get_volume_by_uuid(self, uuid):

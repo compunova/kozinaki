@@ -252,9 +252,12 @@ class KozinakiDriver(driver.ComputeDriver):
             """Called at an interval until the VM is running."""
             node = self.get_info(instance)
 
-            if node and node.state == power_state.RUNNING:
-                LOG.info("Instance spawned successfully.", instance=instance)
-                raise loopingcall.LoopingCallDone()
+            if node:
+                LOG.info("Power state: {}".format(node.state), instance=instance)
+
+                if node.state == power_state.RUNNING:
+                    LOG.info("Instance spawned successfully.", instance=instance)
+                    raise loopingcall.LoopingCallDone()
 
         timer = loopingcall.FixedIntervalLoopingCall(_wait_for_boot)
         timer.start(interval=3).wait()

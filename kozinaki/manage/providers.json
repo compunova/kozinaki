@@ -1337,6 +1337,20 @@
                         "ru": "",
                         "en": ""
                     }
+                },
+                "location": {
+                    "description": {
+                        "ru": "",
+                        "en": ""
+                    },
+                    "default": "7"
+                },
+                "root_password": {
+                    "description": {
+                        "ru": "",
+                        "en": ""
+                    },
+                    "default": "Tempr00t"
                 }
             }
         },
