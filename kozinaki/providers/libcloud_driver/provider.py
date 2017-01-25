@@ -18,11 +18,10 @@ import inspect
 from libcloud.compute.types import Provider
 from libcloud.compute.providers import get_driver as get_libcloud_driver
 from oslo_config import cfg
-from nova.image import glance
-from oslo_service import loopingcall
-from nova.compute import power_state, task_states
+from nova.compute import power_state
 
 from ..common import BaseProvider
+from .extended_drivers import get_extended_driver
 
 
 LOG = logging.getLogger(__name__)
@@ -58,7 +57,7 @@ class LibCloudProvider(BaseProvider):
     def get_driver(self):
         config = self.load_config()
 
-        provider_cls = get_libcloud_driver(getattr(Provider, self.provider_name))
+        provider_cls = get_extended_driver(get_libcloud_driver(getattr(Provider, self.provider_name)))
 
         provider_cls_info = inspect.getargspec(provider_cls.__init__)
 

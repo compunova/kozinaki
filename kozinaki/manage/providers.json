@@ -2328,41 +2328,12 @@
                         "en": ""
                     }
                 },
-                "secret": {
+                "location": {
                     "description": {
                         "ru": "",
                         "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
+                    },
+                    "default": "ams2"
                 }
             }
         },
