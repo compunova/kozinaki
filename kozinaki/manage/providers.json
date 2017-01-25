@@ -669,11 +669,12 @@
                         "en": ""
                     }
                 },
-                "secret": {
+                "location": {
                     "description": {
                         "ru": "",
                         "en": ""
-                    }
+                    },
+                    "default": "ams2"
                 },
                 "api_version": {
                     "description": {
@@ -1336,6 +1337,20 @@
                         "ru": "",
                         "en": ""
                     }
+                },
+                "location": {
+                    "description": {
+                        "ru": "",
+                        "en": ""
+                    },
+                    "default": "7"
+                },
+                "root_password": {
+                    "description": {
+                        "ru": "",
+                        "en": ""
+                    },
+                    "default": "Tempr00t"
                 }
             }
         },
@@ -2327,41 +2342,12 @@
                         "en": ""
                     }
                 },
-                "secret": {
+                "location": {
                     "description": {
                         "ru": "",
                         "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
+                    },
+                    "default": "ams2"
                 }
             }
         },

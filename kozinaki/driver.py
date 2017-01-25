@@ -85,7 +85,7 @@ class KozinakiDriver(driver.ComputeDriver):
         return
 
     def _configured_providers(self):
-        providers_sections = [section.split('_')[1] for section in
+        providers_sections = [section[9:] for section in
                               CONF.list_all_sections() if section.startswith('kozinaki_')]
         return providers_sections
 
@@ -252,9 +252,12 @@ class KozinakiDriver(driver.ComputeDriver):
             """Called at an interval until the VM is running."""
             node = self.get_info(instance)
 
-            if node and node.state == power_state.RUNNING:
-                LOG.info("Instance spawned successfully.", instance=instance)
-                raise loopingcall.LoopingCallDone()
+            if node:
+                LOG.info("Power state: {}".format(node.state), instance=instance)
+
+                if node.state == power_state.RUNNING:
+                    LOG.info("Instance spawned successfully.", instance=instance)
+                    raise loopingcall.LoopingCallDone()
 
         timer = loopingcall.FixedIntervalLoopingCall(_wait_for_boot)
         timer.start(interval=3).wait()
