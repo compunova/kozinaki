@@ -59,7 +59,10 @@ class LibCloudProvider(BaseProvider):
     def get_driver(self):
         config = self.load_config()
 
-        provider_cls = get_extended_driver(get_libcloud_driver(getattr(Provider, self.provider_name)))
+        provider_cls = get_extended_driver(
+            driver_cls=get_libcloud_driver(getattr(Provider, self.provider_name)),
+            nova_config=config
+        )
 
         provider_cls_info = inspect.getargspec(provider_cls.__init__)
 
@@ -81,6 +84,8 @@ class LibCloudProvider(BaseProvider):
 
         provider_opts = [cfg.StrOpt(arg) for arg in provider_cls_info.args]
         provider_opts.append(cfg.StrOpt('location'))
+        provider_opts.append(cfg.StrOpt('root_password'))
+        provider_opts.append(cfg.StrOpt('project_id'))
 
         cfg.CONF.register_opts(provider_opts, self.config_name)
         return cfg.CONF[self.config_name]
@@ -120,7 +125,8 @@ class LibCloudProvider(BaseProvider):
 
         # Root password
         try:
-            node_config['auth'] = NodeAuthPassword(config.get('root_password'))
+            if config.get('root_password'):
+                node_config['auth'] = NodeAuthPassword(config.get('root_password'))
         except cfg.NoSuchOptError:
             pass
 

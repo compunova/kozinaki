@@ -1754,37 +1754,14 @@
                         "en": ""
                     }
                 },
-                "secret": {
+                "location": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
+                        "ru": "Location ID. Default: 'Amsterdam, NL'",
+                        "en": "Location ID. Default: 'Amsterdam, NL'"
+                    },
+                    "default": "ams1"
                 },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
+                "project_id": {
                     "description": {
                         "ru": "",
                         "en": ""
