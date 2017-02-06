@@ -12,10 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import base64
+import hashlib
 import logging
+from Crypto.PublicKey import RSA
 
 import boto3
-from botocore.exceptions import BotoCoreError
+from botocore.exceptions import BotoCoreError, ClientError
 from haikunator import Haikunator
 from oslo_config import cfg
 from nova.image import glance
@@ -95,6 +98,10 @@ class AWSProvider(BaseProvider):
             'MaxCount': 1
         }
 
+        if instance.key_name:
+            self._check_keypair(instance.key_name, instance.key_data)
+            image_config['KeyName'] = instance.key_name
+
         if subnet_id:
             image_config.update({'SubnetId': subnet_id})
 
@@ -104,6 +111,27 @@ class AWSProvider(BaseProvider):
         aws_instance.create_tags(Tags=[{'Key': 'openstack_server_id', 'Value': instance.uuid}])
         instance['metadata']['ec2_id'] = aws_instance.id
         return aws_instance
+
+    def _check_keypair(self, key_name, key_data):
+        aws_key_fingerprint = None
+        try:
+            aws_key_fingerprint = self.driver.KeyPair(key_name).key_fingerprint
+        except ClientError as e:
+            if 'not exist' not in e.message:
+                raise Exception(e)
+
+        if aws_key_fingerprint:
+            if aws_key_fingerprint != self._key_to_aws_fingerprint(key_data):
+                raise Exception('Local and AWS public key pair with name "{}" has different fingerprints.'
+                                'Please set another key name.'.format(key_name))
+        else:
+            self.driver.import_key_pair(KeyName=key_name, PublicKeyMaterial=key_data)
+
+    def _key_to_aws_fingerprint(self, key_data):
+        key = RSA.importKey(key_data)
+        key_der = key.publickey().exportKey("DER")
+        fp_plain = hashlib.md5(key_der).hexdigest()
+        return ':'.join(a + b for a, b in zip(fp_plain[::2], fp_plain[1::2]))
 
     def list_nodes(self):
         return list(self.driver.instances.all())
