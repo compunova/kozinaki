@@ -19,7 +19,7 @@ setup(
         'haikunator',
         'requests==2.11',
         'oauth2client==3.0.0',
-        'azure',
+        'azure==2.0.0rc6',
         'boto3',
         'google-cloud',
         'cryptography==1.4',

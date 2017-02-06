@@ -31,7 +31,12 @@ _LOG = "\n\n### {} ###\n\n"
 
 
 CONF = cfg.CONF
-CONF.import_opt('my_ip', 'nova.netconf')
+
+# In OpenStack Newton netconf moved to nova.conf
+try:
+    CONF.import_opt('my_ip', 'nova.netconf')
+except ImportError as e:
+    CONF.import_opt('my_ip', 'nova.conf.netconf')
 
 # Mapping of libcloud instance power states to the OpenStack power states
 # Each libcloud driver has provider specific power states in NODE_STATE_MAP within each driver
