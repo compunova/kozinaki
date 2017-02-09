@@ -15,23 +15,14 @@
 Kozinaki hybrid cloud Nova compute driver
 """
 
-import time
-
 from oslo_config import cfg
-from nova import context as ctxt2
-from nova.objects import network as network_obj
-from nova.objects import virtual_interface as vif_obj
-from nova.objects import instance_info_cache as info_cache_obj
 from nova import network, compute, conductor, exception
-from nova.compute import flavors, power_state, task_states, arch, hv_type, vm_mode
+from nova.compute import power_state, arch, hv_type, vm_mode
 from nova.api.openstack.common import logging
 from nova.virt import driver
 from nova.virt.hardware import InstanceInfo
-from network import FlatManager
 from oslo_service import loopingcall
-from netaddr import IPAddress
 
-from .utils import timeout_call
 from .exceptions import KozinakiException
 from .providers import get_provider_by_name
 
