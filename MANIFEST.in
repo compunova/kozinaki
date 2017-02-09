@@ -1,4 +1,4 @@
 include README.md
-include kozinaki/manage/config.yaml
-include kozinaki/manage/providers.json
-recursive-include kozinaki/manage/templates *
+include nova/virt/kozinaki/manage/config.yaml
+include nova/virt/kozinaki/manage/providers.json
+recursive-include nova/virt/kozinaki/manage/templates *
