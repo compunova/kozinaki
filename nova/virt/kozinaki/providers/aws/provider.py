@@ -101,7 +101,10 @@ class AWSProvider(BaseProvider):
         aws_instance = self.driver.create_instances(**image_config)[0]
 
         # Add openstack image uuid to tag
-        aws_instance.create_tags(Tags=[{'Key': 'openstack_server_id', 'Value': instance.uuid}])
+        aws_instance.create_tags(Tags=[
+            {'Key': 'openstack_server_id', 'Value': instance.uuid},
+            {'Key': 'Name', 'Value': instance.display_name}
+        ])
         instance['metadata']['ec2_id'] = aws_instance.id
         return aws_instance
 

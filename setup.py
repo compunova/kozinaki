@@ -34,7 +34,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'kozinaki-manage=kozinaki.manage.__main__:main',
+            'kozinaki-manage=nova.virt.kozinaki.manage.__main__:main',
         ],
     }
 )

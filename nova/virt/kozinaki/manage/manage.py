@@ -1,6 +1,7 @@
 import os
 import re
 import json
+import socket
 import inspect
 from collections import defaultdict
 
@@ -158,6 +159,9 @@ class NodeManager:
             token_values=kwargs
         )
 
+        # Add ip address
+        kwargs['local_hostname'] = self._get_current_hostname()
+
         new_node = Node(name=node_name, node_type=node_type)
         new_node.create(template_context=kwargs)
 
@@ -252,6 +256,9 @@ class NodeManager:
         # providers_data['providers'].update(libcloud_providers)
 
         return providers_data
+
+    def _get_current_hostname(self):
+        return socket.gethostbyname(socket.gethostname())
 
 
 # Compute node manager exceptions
