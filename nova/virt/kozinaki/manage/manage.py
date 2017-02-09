@@ -199,6 +199,7 @@ class NodeManager:
         # Remove hostname and provider_config form vars, because hostname == node_name
         templates_vars.remove('hostname')
         templates_vars.remove('provider_config')
+        templates_vars.remove('local_hostname')
 
         all_node_params = {}
 
