@@ -175,7 +175,6 @@ class FlatManager(RPCAllocateFixedIP, NetworkManager):
 #             return []
 
     def allocate_for_instance(self, context, **kwargs):
-        import pdb; pdb.set_trace()
         requested_networks = kwargs.get('requested_networks')
         if requested_networks is not None and len(requested_networks) != 0:
             return NetworkManager.allocate_for_instance(self, context, **kwargs)
@@ -191,13 +190,13 @@ class FlatManager(RPCAllocateFixedIP, NetworkManager):
 
     def deallocate_fixed_ip(self, context, address, host=None, teardown=True, instance=None):
         """Returns a fixed ip to the pool."""
-        import pdb; pdb.set_trace()
+
         # super(FlatManager, self).deallocate_fixed_ip(context, address, host, teardown, instance=instance)
         fixed_ip_obj.FixedIP.disassociate_by_address(context, address)
 
     def _setup_network_on_host(self, context, network):
         """Setup Network on this host."""
-        import pdb; pdb.set_trace()
+
         # NOTE(tr3buchet): this does not need to happen on every ip
         # allocation, this functionality makes more sense in create_network
         # but we'd have to move the flat_injected flag to compute
@@ -206,7 +205,7 @@ class FlatManager(RPCAllocateFixedIP, NetworkManager):
 
     def _teardown_network_on_host(self, context, network):
         """Tear down network on this host."""
-        import pdb; pdb.set_trace()
+
         pass
 
     # NOTE(justinsb): The floating ip functions are stub-implemented.
@@ -217,53 +216,53 @@ class FlatManager(RPCAllocateFixedIP, NetworkManager):
         """Returns a floating IP as a dict."""
         # NOTE(vish): This is no longer used but can't be removed until
         #             we major version the network_rpcapi to 2.0.
-        import pdb; pdb.set_trace()
+
         return None
 
     def get_floating_pools(self, context):
         """Returns list of floating pools."""
         # NOTE(maurosr) This method should be removed in future, replaced by
         # get_floating_ip_pools. See bug #1091668
-        import pdb; pdb.set_trace()
+
         return {}
 
     def get_floating_ip_pools(self, context):
         """Returns list of floating ip pools."""
         # NOTE(vish): This is no longer used but can't be removed until
         #             we major version the network_rpcapi to 2.0.
-        import pdb; pdb.set_trace()
+
         return {}
 
     def get_floating_ip_by_address(self, context, address):
         """Returns a floating IP as a dict."""
         # NOTE(vish): This is no longer used but can't be removed until
         #             we major version the network_rpcapi to 2.0.
-        import pdb; pdb.set_trace()
+
         return None
 
     def get_floating_ips_by_project(self, context):
         """Returns the floating IPs allocated to a project."""
         # NOTE(vish): This is no longer used but can't be removed until
         #             we major version the network_rpcapi to 2.0.
-        import pdb; pdb.set_trace()
+
         return []
 
     def get_floating_ips_by_fixed_address(self, context, fixed_address):
         """Returns the floating IPs associated with a fixed_address."""
         # NOTE(vish): This is no longer used but can't be removed until
         #             we major version the network_rpcapi to 2.0.
-        import pdb; pdb.set_trace()
+
         return []
 
     @network_api.wrap_check_policy
     def allocate_floating_ip(self, context, project_id, pool):
         """Gets a floating ip from the pool."""
-        import pdb; pdb.set_trace()
+
         return None
 
     def deallocate_floating_ip(self, context, address, affect_auto_assigned):
         """Returns a floating ip to the pool."""
-        import pdb; pdb.set_trace()
+
         return None
 
     def associate_floating_ip(self, context, floating_address, fixed_address, affect_auto_assigned=False):
@@ -272,7 +271,7 @@ class FlatManager(RPCAllocateFixedIP, NetworkManager):
         Makes sure everything makes sense then calls _associate_floating_ip,
         rpc'ing to correct host if i'm not it.
         """
-        import pdb; pdb.set_trace()
+
         return None
 
     def disassociate_floating_ip(self, context, address, affect_auto_assigned=False):
@@ -281,54 +280,54 @@ class FlatManager(RPCAllocateFixedIP, NetworkManager):
         Makes sure everything makes sense then calls _disassociate_floating_ip,
         rpc'ing to correct host if i'm not it.
         """
-        import pdb; pdb.set_trace()
+
         return None
 
     def migrate_instance_start(self, context, instance_uuid,
                                floating_addresses,
                                rxtx_factor=None, project_id=None,
                                source=None, dest=None):
-        import pdb; pdb.set_trace()
+
         pass
 
     def migrate_instance_finish(self, context, instance_uuid,
                                 floating_addresses, host=None,
                                 rxtx_factor=None, project_id=None,
                                 source=None, dest=None):
-        import pdb; pdb.set_trace()
+
         pass
 
     def update_dns(self, context, network_ids):
         """Called when fixed IP is allocated or deallocated."""
-        import pdb; pdb.set_trace()
+
         pass
 
 
 class FakeManager(RPCAllocateFixedIP, NetworkManager):
 
     def allocate_fixed_ip(self, context, instance_id, network, **kwargs):
-        import pdb; pdb.set_trace()
+
         return '0.0.0.0'
 
     def allocate_for_instance(self, context, **kwargs):
-        import pdb; pdb.set_trace()
+
         pass
 
     def init_host(self):
         """Do any initialization that needs to be run if this is a
         standalone service.
         """
-        import pdb; pdb.set_trace()
+
         pass
 
     def _setup_network_on_host(self, context, network):
-        import pdb; pdb.set_trace()
+
         pass
 
     def _teardown_network_on_host(self, context, network):
-        import pdb; pdb.set_trace()
+
         pass
 
     def _get_network_dict(self, network):
-        import pdb; pdb.set_trace()
+
         return {}
