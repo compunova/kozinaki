@@ -159,9 +159,6 @@ class NodeManager:
             token_values=kwargs
         )
 
-        # Add ip address
-        kwargs['local_hostname'] = self._get_current_hostname()
-
         new_node = Node(name=node_name, node_type=node_type)
         new_node.create(template_context=kwargs)
 
@@ -199,7 +196,6 @@ class NodeManager:
         # Remove hostname and provider_config form vars, because hostname == node_name
         templates_vars.remove('hostname')
         templates_vars.remove('provider_config')
-        templates_vars.remove('local_hostname')
 
         all_node_params = {}
 
