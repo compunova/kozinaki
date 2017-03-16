@@ -1,2440 +1,4020 @@
 {
     "providers": {
-        "aws": {
-            "section_name": "kozinaki_AWS",
-            "description": "Boto3 Client (1.4.3)",
+        "DIGITAL_OCEAN": {
+            "description": "DigitalOcean",
             "tokens": {
-                "aws_access_key_id": {
+                "api_version": {
                     "description": {
-                        "ru": "Ключ доступа к AWS API",
-                        "en": "Access key to make programmatic calls to AWS"
+                        "en": "",
+                        "ru": ""
                     },
-                    "type": "str"
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    },
+                    "default": "v2"
                 },
-                "aws_secret_access_key": {
+                "key": {
                     "description": {
-                        "ru": "Секретный ключ доступа к AWS API",
-                        "en": "Secret access key to AWS API"
+                        "en": "",
+                        "ru": ""
                     },
-                    "type": "str"
-                },
-                "region": {
-                    "description": {
-                        "ru": "Регион создания ресурсов",
-                        "en": "AWS region"
-                    },
-                    "type": "str"
-                }
-            }
-        },
-        "azure": {
-            "section_name": "kozinaki_AZURE",
-            "description": "Azure Client (1.0.3)",
-            "tokens": {
-                "subscription_id": {
-                    "description": {
-                        "ru": "Id подписки",
-                        "en": "User subscription id"
-                    },
-                    "type": "str"
-                },
-                "key_file": {
-                    "description": {
-                        "ru": "Файл сертификата доступа к Azure API",
-                        "en": ""
-                    },
-                    "type": "str"
-                },
-                "app_client_id": {
-                    "description": {
-                        "ru": "Ключ приложения, через которое будет осуществляться работа",
-                        "en": ""
-                    },
-                    "type": "str"
-                },
-                "app_secret": {
-                    "description": {
-                        "ru": "Секретный ключ доступа к API",
-                        "en": ""
-                    },
-                    "type": "str"
-                },
-                "app_tenant": {
-                    "description": {
-                        "ru": "Тенант, в котором находится приложение",
-                        "en": ""
-                    },
-                    "type": "str"
-                },
-                "username": {
-                    "description": {
-                        "ru": "Рут пользователь в ВМ",
-                        "en": ""
-                    },
-                    "type": "str",
-                    "default": "userlogin"
-                },
-                "password": {
-                    "description": {
-                        "ru": "Пароль рут пользователя в ВМ",
-                        "en": ""
-                    },
-                    "type": "str",
-                    "default": "Tempr00t"
-                },
-                "resource_group_name": {
-                    "description": {
-                        "ru": "Имя группы ресурсов, в которой будут создаваться ВМ",
-                        "en": ""
-                    },
-                    "type": "str",
-                    "default": "aw-virtual-machines"
-                },
-                "storage_account_name": {
-                    "description": {
-                        "ru": "Имя группы ресурсов, в которой будут создаваться ВМ",
-                        "en": ""
-                    },
-                    "type": "str",
-                    "default": "kozinakiawstorage"
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
                 },
                 "location": {
                     "description": {
-                        "ru": "Регион создания ВМ",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
                     },
-                    "type": "str",
-                    "default": "westeurope"
-                },
-                "os_disk_name": {
-                    "description": {
-                        "ru": "Имя диска ВМ",
-                        "en": ""
+                    "display_name": {
+                        "en": "Location",
+                        "ru": ""
                     },
-                    "type": "str",
-                    "default": "aw-osdisk"
-                },
-                "vnet_name": {
-                    "description": {
-                        "ru": "Имя виртуальной сети",
-                        "en": ""
-                    },
-                    "type": "str",
-                    "default": "aw-vnet"
-                },
-                "subnet_name": {
-                    "description": {
-                        "ru": "Имя виртуальной подсети",
-                        "en": ""
-                    },
-                    "type": "str",
-                    "default": "aw-subnet"
-                },
-                "ip_config_name": {
-                    "description": {
-                        "ru": "Имя виртуальной сетевой карты",
-                        "en": ""
-                    },
-                    "type": "str",
-                    "default": "aw-ip-config"
-                },
-                "nic_name": {
-                    "description": {
-                        "ru": "Имя nic",
-                        "en": ""
-                    },
-                    "type": "str",
-                    "default": "aw-nic"
+                    "default": "ams2"
                 }
-            }
+            },
+            "display_name": {
+                "en": "Digital ocean",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_DIGITAL_OCEAN"
+        },
+        "NEPHOSCALE": {
+            "description": "NephoScale",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    }
+                },
+                "region": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    }
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Nephoscale",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_NEPHOSCALE"
+        },
+        "IKOULA": {
+            "description": "IKOULA",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "args": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Args",
+                        "ru": ""
+                    }
+                },
+                "url": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Url",
+                        "ru": ""
+                    }
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "path": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Path",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Ikoula",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_IKOULA"
+        },
+        "BLUEBOX": {
+            "description": "IBM BlueBox",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    }
+                },
+                "region": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    }
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Bluebox",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_BLUEBOX"
+        },
+        "EXOSCALE": {
+            "description": "Exoscale",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "args": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Args",
+                        "ru": ""
+                    }
+                },
+                "url": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Url",
+                        "ru": ""
+                    }
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "path": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Path",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Exoscale",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_EXOSCALE"
+        },
+        "OUTSCALE_SAS": {
+            "description": "Outscale SAS",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "region": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    },
+                    "default": "us-east-1"
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "region_details": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region details",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Outscale sas",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_OUTSCALE_SAS"
+        },
+        "LINODE": {
+            "description": "Linode",
+            "tokens": {
+                "root_password": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Root password",
+                        "ru": ""
+                    },
+                    "default": "Tempr00t"
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "location": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Location",
+                        "ru": ""
+                    },
+                    "default": "7"
+                }
+            },
+            "display_name": {
+                "en": "Linode",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_LINODE"
+        },
+        "ELASTICHOSTS": {
+            "description": "ElasticHosts",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "region": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    },
+                    "default": "sat-p"
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Elastichosts",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_ELASTICHOSTS"
+        },
+        "AZURE": {
+            "description": "Microsoft Azure Classic",
+            "tokens": {
+                "key_file": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key file",
+                        "ru": ""
+                    }
+                },
+                "subscription_id": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Subscription id",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Azure",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_AZURE"
+        },
+        "JOYENT": {
+            "description": "Joyent",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "region": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    },
+                    "default": "us-east-1"
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Joyent",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_JOYENT"
         },
         "gcp": {
-            "section_name": "kozinaki_GCP",
             "description": "Google-cloud Client (0.22.0)",
             "tokens": {
                 "path_to_json_token": {
                     "description": {
-                        "ru": "Путь к json токену для доступа",
-                        "en": ""
+                        "en": "",
+                        "ru": "Путь к json токену для доступа"
                     },
-                    "type": "str"
-                },
-                "project": {
-                    "description": {
-                        "ru": "Имя проекта",
-                        "en": ""
+                    "display_name": {
+                        "en": "Path to json token",
+                        "ru": ""
                     },
                     "type": "str"
                 },
                 "zone": {
                     "description": {
-                        "ru": "Регион создания ресурсов",
-                        "en": ""
+                        "en": "",
+                        "ru": "Регион создания ресурсов"
+                    },
+                    "display_name": {
+                        "en": "Zone",
+                        "ru": ""
                     },
                     "type": "str"
-                }
-            }
-        },
-        "AZURE": {
-            "section_name": "kozinaki_LC_AZURE",
-            "description": "Microsoft Azure Classic",
-            "tokens": {
-                "subscription_id": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "key_file": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "AZURE_ARM": {
-            "section_name": "kozinaki_LC_AZURE_ARM",
-            "description": "Microsoft Azure ARM",
-            "tokens": {
-                "tenant_id": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "subscription_id": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "ABIQUO": {
-            "section_name": "kozinaki_LC_ABIQUO",
-            "description": "Abiquo",
-            "tokens": {
-                "user_id": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "endpoint": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "ALIYUN_ECS": {
-            "section_name": "kozinaki_LC_ALIYUN_ECS",
-            "description": "Alibaba Cloud",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "AURORACOMPUTE": {
-            "section_name": "kozinaki_LC_AURORACOMPUTE",
-            "description": "PCextreme Aurora Compute",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "path": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "url": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "BLUEBOX": {
-            "section_name": "kozinaki_LC_BLUEBOX",
-            "description": "IBM BlueBox",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "BRIGHTBOX": {
-            "section_name": "kozinaki_LC_BRIGHTBOX",
-            "description": "Brightbox",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    },
-                    "default": "1.0"
-                }
-            }
-        },
-        "BSNL": {
-            "section_name": "kozinaki_LC_BSNL",
-            "description": "BSNL",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    },
-                    "default": "bsnl-in"
-                }
-            }
-        },
-        "CLOUDSIGMA": {
-            "section_name": "kozinaki_LC_CLOUDSIGMA",
-            "description": "CloudSigma",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    },
-                    "default": "2.0"
-                }
-            }
-        },
-        "CLOUDSCALE": {
-            "section_name": "kozinaki_LC_CLOUDSCALE",
-            "description": "CloudScale",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "CLOUDSTACK": {
-            "section_name": "kozinaki_LC_CLOUDSTACK",
-            "description": "CloudStack",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "path": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "url": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "args": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "CLOUDWATT": {
-            "section_name": "kozinaki_LC_CLOUDWATT",
-            "description": "cloudwatt",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    },
-                    "default": "1.1"
-                }
-            }
-        },
-        "DIGITAL_OCEAN": {
-            "section_name": "kozinaki_LC_DIGITAL_OCEAN",
-            "description": "DigitalOcean",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "location": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    },
-                    "default": "ams2"
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    },
-                    "default": "v2"
-                }
-            }
-        },
-        "DIMENSIONDATA": {
-            "section_name": "kozinaki_LC_DIMENSIONDATA",
-            "description": "Dimension Data",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    },
-                    "default": "dd-na"
-                }
-            }
-        },
-        "EC2": {
-            "section_name": "kozinaki_LC_EC2",
-            "description": "Amazon Elastic Compute Cloud (EC2)",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    },
-                    "default": "us-east-1"
-                }
-            }
-        },
-        "ECP": {
-            "section_name": "kozinaki_LC_ECP",
-            "description": "Virustream Cloud",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "ELASTICHOSTS": {
-            "section_name": "kozinaki_LC_ELASTICHOSTS",
-            "description": "ElasticHosts",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    },
-                    "default": "sat-p"
-                }
-            }
-        },
-        "EUCALYPTUS": {
-            "section_name": "kozinaki_LC_EUCALYPTUS",
-            "description": "Eucalyptus",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "path": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    },
-                    "default": "3.3.0"
-                }
-            }
-        },
-        "EXOSCALE": {
-            "section_name": "kozinaki_LC_EXOSCALE",
-            "description": "Exoscale",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "path": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "url": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "args": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "GANDI": {
-            "section_name": "kozinaki_LC_GANDI",
-            "description": "Gandi SAS",
-            "tokens": {
-                "args": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "GCE": {
-            "section_name": "kozinaki_LC_GCE",
-            "description": "Google Compute Engine",
-            "tokens": {
-                "user_id": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "datacenter": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
                 },
                 "project": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "auth_type": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "scopes": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "credential_file": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
+                        "en": "",
+                        "ru": "Имя проекта"
+                    },
+                    "display_name": {
+                        "en": "Project",
+                        "ru": ""
+                    },
+                    "type": "str"
                 }
-            }
+            },
+            "display_name": {
+                "en": "Gcp",
+                "ru": ""
+            },
+            "section_name": "kozinaki_GCP"
         },
-        "GOGRID": {
-            "section_name": "kozinaki_LC_GOGRID",
-            "description": "Datapipe (former GoGrid)",
+        "ABIQUO": {
+            "description": "Abiquo",
             "tokens": {
-                "args": {
+                "endpoint": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "HOSTVIRTUAL": {
-            "section_name": "kozinaki_LC_HOSTVIRTUAL",
-            "description": "HostVirtual AnyCast Cloud",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "IKOULA": {
-            "section_name": "kozinaki_LC_IKOULA",
-            "description": "IKOULA",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Endpoint",
+                        "ru": ""
                     }
                 },
                 "secret": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
                     }
                 },
-                "secure": {
+                "user_id": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "path": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "url": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "args": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "User id",
+                        "ru": ""
                     }
                 }
-            }
+            },
+            "display_name": {
+                "en": "Abiquo",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_ABIQUO"
         },
-        "INDOSAT": {
-            "section_name": "kozinaki_LC_INDOSAT",
-            "description": "Indosat Cloud",
+        "SKALICLOUD": {
+            "description": "SCALICloud",
             "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
                 "secure": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
                     }
                 },
                 "api_version": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
                     }
                 },
                 "region": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
                     },
-                    "default": "indosat-id"
-                }
-            }
-        },
-        "INTERNETSOLUTIONS": {
-            "section_name": "kozinaki_LC_INTERNETSOLUTIONS",
-            "description": "Internet Solution",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
                     }
                 },
                 "secret": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
                     },
-                    "default": "is-af"
-                }
-            }
-        },
-        "JOYENT": {
-            "section_name": "kozinaki_LC_JOYENT",
-            "description": "Joyent",
-            "tokens": {
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
                 "key": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
                     },
-                    "default": "us-east-1"
-                }
-            }
-        },
-        "KTUCLOUD": {
-            "section_name": "kozinaki_LC_KTUCLOUD",
-            "description": "KT ucloud biz",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "path": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
                     }
                 },
                 "port": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
                     }
                 },
-                "url": {
+                "host": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "args": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
                     }
                 }
-            }
+            },
+            "display_name": {
+                "en": "Skalicloud",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_SKALICLOUD"
         },
         "LIBVIRT": {
-            "section_name": "kozinaki_LC_LIBVIRT",
             "description": "LibVirt",
             "tokens": {
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
                 "uri": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Uri",
+                        "ru": ""
                     }
                 }
-            }
+            },
+            "display_name": {
+                "en": "Libvirt",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_LIBVIRT"
         },
-        "LINODE": {
-            "section_name": "kozinaki_LC_LINODE",
-            "description": "Linode",
+        "VPSNET": {
+            "description": "VPS.NET",
             "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "location": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    },
-                    "default": "7"
-                },
-                "root_password": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    },
-                    "default": "Tempr00t"
-                }
-            }
-        },
-        "MEDONE": {
-            "section_name": "kozinaki_LC_MEDONE",
-            "description": "MedOne",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
                 "secure": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
                     }
                 },
                 "api_version": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
                     }
                 },
                 "region": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
                     },
-                    "default": "med1-il"
-                }
-            }
-        },
-        "NEPHOSCALE": {
-            "section_name": "kozinaki_LC_NEPHOSCALE",
-            "description": "NephoScale",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
                     }
                 },
                 "secret": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
                     }
                 },
-                "secure": {
+                "key": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
                     }
                 },
                 "port": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Vpsnet",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_VPSNET"
+        },
+        "ECP": {
+            "description": "Virustream Cloud",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
                     }
                 },
                 "api_version": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
                     }
                 },
                 "region": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "NIMBUS": {
-            "section_name": "kozinaki_LC_NIMBUS",
-            "description": "Nimbus",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "NTTA": {
-            "section_name": "kozinaki_LC_NTTA",
-            "description": "NTT America Cloud",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
                     },
-                    "default": "ntta-na"
-                }
-            }
-        },
-        "OPENNEBULA": {
-            "section_name": "kozinaki_LC_OPENNEBULA",
-            "description": "OpenNebula",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
                     }
                 },
                 "secret": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
                     },
-                    "default": "3.2"
-                }
-            }
-        },
-        "OPENSTACK": {
-            "section_name": "kozinaki_LC_OPENSTACK",
-            "description": "OpenStack",
-            "tokens": {
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
                 "key": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
                     }
                 },
                 "port": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Ecp",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_ECP"
+        },
+        "CLOUDWATT": {
+            "description": "cloudwatt",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
                     }
                 },
                 "api_version": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
                     },
                     "default": "1.1"
-                }
-            }
-        },
-        "OUTSCALE_INC": {
-            "section_name": "kozinaki_LC_OUTSCALE_INC",
-            "description": "Outscale Inc. (US)",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
                 },
                 "secret": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
                     }
                 },
-                "secure": {
+                "key": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
                     }
                 },
                 "port": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
                     },
-                    "default": "us-east-1"
-                },
-                "region_details": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "OUTSCALE_SAS": {
-            "section_name": "kozinaki_LC_OUTSCALE_SAS",
-            "description": "Outscale SAS",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
                     }
                 },
                 "host": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
                     },
-                    "default": "us-east-1"
-                },
-                "region_details": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
                     }
                 }
-            }
+            },
+            "display_name": {
+                "en": "Cloudwatt",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_CLOUDWATT"
         },
-        "OVH": {
-            "section_name": "kozinaki_LC_OVH",
-            "description": "OVH",
+        "CLOUDSTACK": {
+            "description": "CloudStack",
             "tokens": {
-                "key": {
+                "secure": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "args": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Args",
+                        "ru": ""
+                    }
+                },
+                "url": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Url",
+                        "ru": ""
                     }
                 },
                 "secret": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
                     }
                 },
-                "ex_project_id": {
+                "path": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Path",
+                        "ru": ""
                     }
                 },
-                "ex_consumer_key": {
+                "key": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
                     }
                 }
-            }
+            },
+            "display_name": {
+                "en": "Cloudstack",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_CLOUDSTACK"
+        },
+        "SOFTLAYER": {
+            "description": "IBM SoftLayer",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    }
+                },
+                "region": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    }
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Softlayer",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_SOFTLAYER"
         },
         "PACKET": {
-            "section_name": "kozinaki_LC_PACKET",
             "description": "Packet",
             "tokens": {
                 "key": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
                     }
                 },
                 "location": {
                     "description": {
-                        "ru": "Location ID. Default: 'Amsterdam, NL'",
-                        "en": "Location ID. Default: 'Amsterdam, NL'"
+                        "en": "Location ID. Default: 'Amsterdam, NL'",
+                        "ru": "Location ID. Default: 'Amsterdam, NL'"
+                    },
+                    "display_name": {
+                        "en": "Location",
+                        "ru": ""
                     },
                     "default": "ams1"
                 },
                 "project_id": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Project id",
+                        "ru": ""
                     }
                 }
-            }
+            },
+            "display_name": {
+                "en": "Packet",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_PACKET"
         },
         "PROFIT_BRICKS": {
-            "section_name": "kozinaki_LC_PROFIT_BRICKS",
             "description": "Profit Bricks",
             "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
                 "secure": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
                     }
                 },
                 "api_version": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
                     }
                 },
                 "region": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "RACKSPACE": {
-            "section_name": "kozinaki_LC_RACKSPACE",
-            "description": "Rackspace (Next Gen)",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
                     }
                 },
                 "secret": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
                     }
                 },
-                "secure": {
+                "key": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
                     }
                 },
                 "port": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
                     }
                 },
-                "api_version": {
+                "host": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
                     },
-                    "default": "1.1"
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
                 }
-            }
+            },
+            "display_name": {
+                "en": "Profit bricks",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_PROFIT_BRICKS"
         },
         "RACKSPACE_FIRST_GEN": {
-            "section_name": "kozinaki_LC_RACKSPACE_FIRST_GEN",
             "description": "RackSpace (First Gen)",
             "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
                 "secure": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
                     }
                 },
                 "api_version": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
                     },
                     "default": "1.1"
-                }
-            }
-        },
-        "RIMUHOSTING": {
-            "section_name": "kozinaki_LC_RIMUHOSTING",
-            "description": "RimuHosting",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
                 },
-                "host": {
+                "secret": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
                     },
-                    "default": "rimuhosting.com"
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
                     }
                 },
-                "api_context": {
+                "key": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
                     },
-                    "default": "/r"
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "SERVERLOVE": {
-            "section_name": "kozinaki_LC_SERVERLOVE",
-            "description": "ServerLove",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
                     }
                 },
                 "port": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "SKALICLOUD": {
-            "section_name": "kozinaki_LC_SKALICLOUD",
-            "description": "SCALICloud",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "SOFTLAYER": {
-            "section_name": "kozinaki_LC_SOFTLAYER",
-            "description": "IBM SoftLayer",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "TERREMARK": {
-            "section_name": "kozinaki_LC_TERREMARK",
-            "description": "Verizon Cloud Solutions (former Terremark)",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
                     },
-                    "default": "0.8"
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
                 }
-            }
+            },
+            "display_name": {
+                "en": "Rackspace first gen",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_RACKSPACE_FIRST_GEN"
         },
         "VCL": {
-            "section_name": "kozinaki_LC_VCL",
             "description": "Apache VCL",
             "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
                 "secure": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
                     }
                 },
                 "args": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Args",
+                        "ru": ""
+                    }
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
                     }
                 }
-            }
+            },
+            "display_name": {
+                "en": "Vcl",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_VCL"
+        },
+        "SERVERLOVE": {
+            "description": "ServerLove",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    }
+                },
+                "region": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    }
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Serverlove",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_SERVERLOVE"
+        },
+        "DIMENSIONDATA": {
+            "description": "Dimension Data",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    }
+                },
+                "region": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    },
+                    "default": "dd-na"
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Dimensiondata",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_DIMENSIONDATA"
+        },
+        "BRIGHTBOX": {
+            "description": "Brightbox",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    },
+                    "default": "1.0"
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Brightbox",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_BRIGHTBOX"
+        },
+        "KTUCLOUD": {
+            "description": "KT ucloud biz",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "args": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Args",
+                        "ru": ""
+                    }
+                },
+                "url": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Url",
+                        "ru": ""
+                    }
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "path": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Path",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Ktucloud",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_KTUCLOUD"
+        },
+        "EC2": {
+            "description": "Amazon Elastic Compute Cloud (EC2)",
+            "tokens": {
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "region": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    },
+                    "default": "us-east-1"
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Ec2",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_EC2"
+        },
+        "GCE": {
+            "description": "Google Compute Engine",
+            "tokens": {
+                "auth_type": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Auth type",
+                        "ru": ""
+                    }
+                },
+                "scopes": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Scopes",
+                        "ru": ""
+                    }
+                },
+                "credential_file": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Credential file",
+                        "ru": ""
+                    }
+                },
+                "datacenter": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Datacenter",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "user_id": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "User id",
+                        "ru": ""
+                    }
+                },
+                "project": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Project",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Gce",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_GCE"
+        },
+        "AURORACOMPUTE": {
+            "description": "PCextreme Aurora Compute",
+            "tokens": {
+                "region": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    }
+                },
+                "url": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Url",
+                        "ru": ""
+                    }
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "path": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Path",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Auroracompute",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_AURORACOMPUTE"
+        },
+        "KILI": {
+            "description": "Kili",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    },
+                    "default": "1.1"
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Kili",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_KILI"
+        },
+        "AZURE_ARM": {
+            "description": "Microsoft Azure ARM",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    }
+                },
+                "region": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    }
+                },
+                "subscription_id": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Subscription id",
+                        "ru": ""
+                    }
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "tenant_id": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Tenant id",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Azure arm",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_AZURE_ARM"
+        },
+        "RACKSPACE": {
+            "description": "Rackspace (Next Gen)",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    },
+                    "default": "1.1"
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Rackspace",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_RACKSPACE"
+        },
+        "CLOUDSCALE": {
+            "description": "CloudScale",
+            "tokens": {
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Cloudscale",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_CLOUDSCALE"
+        },
+        "HOSTVIRTUAL": {
+            "description": "HostVirtual AnyCast Cloud",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Hostvirtual",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_HOSTVIRTUAL"
+        },
+        "GANDI": {
+            "description": "Gandi SAS",
+            "tokens": {
+                "args": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Args",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Gandi",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_GANDI"
+        },
+        "GOGRID": {
+            "description": "Datapipe (former GoGrid)",
+            "tokens": {
+                "args": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Args",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Gogrid",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_GOGRID"
+        },
+        "aws": {
+            "description": "Boto3 Client (1.4.3)",
+            "tokens": {
+                "aws_access_key_id": {
+                    "description": {
+                        "en": "Access key to make programmatic calls to AWS",
+                        "ru": "Ключ доступа к AWS API"
+                    },
+                    "display_name": {
+                        "en": "Aws access key id",
+                        "ru": ""
+                    },
+                    "type": "str"
+                },
+                "region": {
+                    "description": {
+                        "en": "AWS region",
+                        "ru": "Регион создания ресурсов"
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    },
+                    "type": "str"
+                },
+                "aws_secret_access_key": {
+                    "description": {
+                        "en": "Secret access key to AWS API",
+                        "ru": "Секретный ключ доступа к AWS API"
+                    },
+                    "display_name": {
+                        "en": "Aws secret access key",
+                        "ru": ""
+                    },
+                    "type": "str"
+                }
+            },
+            "display_name": {
+                "en": "Aws",
+                "ru": ""
+            },
+            "section_name": "kozinaki_AWS"
+        },
+        "NIMBUS": {
+            "description": "Nimbus",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    }
+                },
+                "region": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    }
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Nimbus",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_NIMBUS"
+        },
+        "INDOSAT": {
+            "description": "Indosat Cloud",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    }
+                },
+                "region": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    },
+                    "default": "indosat-id"
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Indosat",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_INDOSAT"
         },
         "VCLOUD": {
-            "section_name": "kozinaki_LC_VCLOUD",
             "description": "VMware vCloud",
             "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
                 "secure": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
                     }
                 },
                 "api_version": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
                     },
                     "default": "0.8"
-                }
-            }
-        },
-        "VOXEL": {
-            "section_name": "kozinaki_LC_VOXEL",
-            "description": "INAP (former Voxel)",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
                 },
                 "secret": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
                     }
                 },
-                "secure": {
+                "key": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
                     }
                 },
                 "port": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "region": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                }
-            }
-        },
-        "VPSNET": {
-            "section_name": "kozinaki_LC_VPSNET",
-            "description": "VPS.NET",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
                     }
                 },
                 "host": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
                     }
-                },
-                "port": {
+                }
+            },
+            "display_name": {
+                "en": "Vcloud",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_VCLOUD"
+        },
+        "TERREMARK": {
+            "description": "Verizon Cloud Solutions (former Terremark)",
+            "tokens": {
+                "secure": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
                     }
                 },
                 "api_version": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    },
+                    "default": "0.8"
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Terremark",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_TERREMARK"
+        },
+        "BSNL": {
+            "description": "BSNL",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
                     }
                 },
                 "region": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    },
+                    "default": "bsnl-in"
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
                     }
                 }
-            }
+            },
+            "display_name": {
+                "en": "Bsnl",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_BSNL"
+        },
+        "OPENNEBULA": {
+            "description": "OpenNebula",
+            "tokens": {
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    },
+                    "default": "3.2"
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Opennebula",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_OPENNEBULA"
+        },
+        "ALIYUN_ECS": {
+            "description": "Alibaba Cloud",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    }
+                },
+                "region": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    }
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Aliyun ecs",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_ALIYUN_ECS"
+        },
+        "NTTA": {
+            "description": "NTT America Cloud",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    }
+                },
+                "region": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    },
+                    "default": "ntta-na"
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Ntta",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_NTTA"
+        },
+        "CLOUDSIGMA": {
+            "description": "CloudSigma",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    },
+                    "default": "2.0"
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Cloudsigma",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_CLOUDSIGMA"
+        },
+        "RIMUHOSTING": {
+            "description": "RimuHosting",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_context": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api context",
+                        "ru": ""
+                    },
+                    "default": "/r"
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    },
+                    "default": "rimuhosting.com"
+                }
+            },
+            "display_name": {
+                "en": "Rimuhosting",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_RIMUHOSTING"
+        },
+        "OVH": {
+            "description": "OVH",
+            "tokens": {
+                "ex_consumer_key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Ex consumer key",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "ex_project_id": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Ex project id",
+                        "ru": ""
+                    }
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Ovh",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_OVH"
+        },
+        "azure": {
+            "description": "Azure Client (1.0.3)",
+            "tokens": {
+                "os_disk_name": {
+                    "description": {
+                        "en": "",
+                        "ru": "Имя диска ВМ"
+                    },
+                    "display_name": {
+                        "en": "Os disk name",
+                        "ru": ""
+                    },
+                    "default": "aw-osdisk",
+                    "type": "str"
+                },
+                "app_secret": {
+                    "description": {
+                        "en": "",
+                        "ru": "Секретный ключ доступа к API"
+                    },
+                    "display_name": {
+                        "en": "App secret",
+                        "ru": ""
+                    },
+                    "type": "str"
+                },
+                "subscription_id": {
+                    "description": {
+                        "en": "User subscription id",
+                        "ru": "Id подписки"
+                    },
+                    "display_name": {
+                        "en": "Subscription id",
+                        "ru": ""
+                    },
+                    "type": "str"
+                },
+                "app_tenant": {
+                    "description": {
+                        "en": "",
+                        "ru": "Тенант, в котором находится приложение"
+                    },
+                    "display_name": {
+                        "en": "App tenant",
+                        "ru": ""
+                    },
+                    "type": "str"
+                },
+                "app_client_id": {
+                    "description": {
+                        "en": "",
+                        "ru": "Ключ приложения, через которое будет осуществляться работа"
+                    },
+                    "display_name": {
+                        "en": "App client id",
+                        "ru": ""
+                    },
+                    "type": "str"
+                },
+                "password": {
+                    "description": {
+                        "en": "",
+                        "ru": "Пароль рут пользователя в ВМ"
+                    },
+                    "display_name": {
+                        "en": "Password",
+                        "ru": ""
+                    },
+                    "default": "Tempr00t",
+                    "type": "str"
+                },
+                "vnet_name": {
+                    "description": {
+                        "en": "",
+                        "ru": "Имя виртуальной сети"
+                    },
+                    "display_name": {
+                        "en": "Vnet name",
+                        "ru": ""
+                    },
+                    "default": "aw-vnet",
+                    "type": "str"
+                },
+                "storage_account_name": {
+                    "description": {
+                        "en": "",
+                        "ru": "Имя группы ресурсов, в которой будут создаваться ВМ"
+                    },
+                    "display_name": {
+                        "en": "Storage account name",
+                        "ru": ""
+                    },
+                    "default": "kozinakiawstorage",
+                    "type": "str"
+                },
+                "subnet_name": {
+                    "description": {
+                        "en": "",
+                        "ru": "Имя виртуальной подсети"
+                    },
+                    "display_name": {
+                        "en": "Subnet name",
+                        "ru": ""
+                    },
+                    "default": "aw-subnet",
+                    "type": "str"
+                },
+                "location": {
+                    "description": {
+                        "en": "",
+                        "ru": "Регион создания ВМ"
+                    },
+                    "display_name": {
+                        "en": "Location",
+                        "ru": ""
+                    },
+                    "default": "westeurope",
+                    "type": "str"
+                },
+                "resource_group_name": {
+                    "description": {
+                        "en": "",
+                        "ru": "Имя группы ресурсов, в которой будут создаваться ВМ"
+                    },
+                    "display_name": {
+                        "en": "Resource group name",
+                        "ru": ""
+                    },
+                    "default": "aw-virtual-machines",
+                    "type": "str"
+                },
+                "nic_name": {
+                    "description": {
+                        "en": "",
+                        "ru": "Имя nic"
+                    },
+                    "display_name": {
+                        "en": "Nic name",
+                        "ru": ""
+                    },
+                    "default": "aw-nic",
+                    "type": "str"
+                },
+                "ip_config_name": {
+                    "description": {
+                        "en": "",
+                        "ru": "Имя виртуальной сетевой карты"
+                    },
+                    "display_name": {
+                        "en": "Ip config name",
+                        "ru": ""
+                    },
+                    "default": "aw-ip-config",
+                    "type": "str"
+                },
+                "username": {
+                    "description": {
+                        "en": "",
+                        "ru": "Рут пользователь в ВМ"
+                    },
+                    "display_name": {
+                        "en": "Username",
+                        "ru": ""
+                    },
+                    "default": "userlogin",
+                    "type": "str"
+                },
+                "key_file": {
+                    "description": {
+                        "en": "",
+                        "ru": "Файл сертификата доступа к Azure API"
+                    },
+                    "display_name": {
+                        "en": "Key file",
+                        "ru": ""
+                    },
+                    "type": "str"
+                }
+            },
+            "display_name": {
+                "en": "Azure",
+                "ru": ""
+            },
+            "section_name": "kozinaki_AZURE"
+        },
+        "ONAPP": {
+            "description": "ONAPP",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    }
+                },
+                "region": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    }
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Onapp",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_ONAPP"
+        },
+        "MEDONE": {
+            "description": "MedOne",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    }
+                },
+                "region": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    },
+                    "default": "med1-il"
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Medone",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_MEDONE"
+        },
+        "EUCALYPTUS": {
+            "description": "Eucalyptus",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    },
+                    "default": "3.3.0"
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "path": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Path",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Eucalyptus",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_EUCALYPTUS"
+        },
+        "OUTSCALE_INC": {
+            "description": "Outscale Inc. (US)",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "region": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    },
+                    "default": "us-east-1"
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "region_details": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region details",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Outscale inc",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_OUTSCALE_INC"
+        },
+        "OPENSTACK": {
+            "description": "OpenStack",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    },
+                    "default": "1.1"
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Openstack",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_OPENSTACK"
         },
         "VULTR": {
-            "section_name": "kozinaki_LC_VULTR",
             "description": "Vultr",
             "tokens": {
                 "key": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
                     }
                 },
                 "location": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Location",
+                        "ru": ""
                     },
                     "default": "ams2"
                 }
-            }
+            },
+            "display_name": {
+                "en": "Vultr",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_VULTR"
         },
-        "KILI": {
-            "section_name": "kozinaki_LC_KILI",
-            "description": "Kili",
+        "INTERNETSOLUTIONS": {
+            "description": "Internet Solution",
             "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
                 "secure": {
                     "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "api_version": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
                     },
-                    "default": "1.1"
-                }
-            }
-        },
-        "ONAPP": {
-            "section_name": "kozinaki_LC_ONAPP",
-            "description": "ONAPP",
-            "tokens": {
-                "key": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secret": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "secure": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "host": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
-                    }
-                },
-                "port": {
-                    "description": {
-                        "ru": "",
-                        "en": ""
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
                     }
                 },
                 "api_version": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
                     }
                 },
                 "region": {
                     "description": {
-                        "ru": "",
-                        "en": ""
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    },
+                    "default": "is-af"
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
                     }
                 }
-            }
+            },
+            "display_name": {
+                "en": "Internetsolutions",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_INTERNETSOLUTIONS"
+        },
+        "VOXEL": {
+            "description": "INAP (former Voxel)",
+            "tokens": {
+                "secure": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secure",
+                        "ru": ""
+                    }
+                },
+                "api_version": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Api version",
+                        "ru": ""
+                    }
+                },
+                "region": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Region",
+                        "ru": ""
+                    }
+                },
+                "secret": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Secret",
+                        "ru": ""
+                    }
+                },
+                "key": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Key",
+                        "ru": ""
+                    }
+                },
+                "port": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Port",
+                        "ru": ""
+                    }
+                },
+                "host": {
+                    "description": {
+                        "en": "",
+                        "ru": ""
+                    },
+                    "display_name": {
+                        "en": "Host",
+                        "ru": ""
+                    }
+                }
+            },
+            "display_name": {
+                "en": "Voxel",
+                "ru": ""
+            },
+            "section_name": "kozinaki_LC_VOXEL"
         }
     },
     "basic_tokens": {
         "hostname": {
             "description": {
-                "ru": "Название ноды",
-                "en": "Name of new node"
+                "en": "Name of new node",
+                "ru": "Название ноды"
+            },
+            "display_name": {
+                "en": "Hostname",
+                "ru": ""
             },
             "type": "str"
         },
         "compute_driver": {
             "description": {
-                "ru": "Compute driver",
-                "en": "Driver to use for controlling virtualization"
+                "en": "Driver to use for controlling virtualization",
+                "ru": "Compute driver"
             },
-            "type": "str",
-            "default": "kozinaki.driver.KozinakiDriver"
+            "display_name": {
+                "en": "Compute driver",
+                "ru": ""
+            },
+            "default": "kozinaki.driver.KozinakiDriver",
+            "type": "str"
         }
     }
 }

@@ -20,6 +20,7 @@ setup(
         'requests==2.11',
         'oauth2client==3.0.0',
         'azure==2.0.0rc6',
+        'msrestazure',
         'boto3',
         'google-cloud',
         'cryptography==1.4',
