@@ -17,7 +17,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'haikunator',
-        'requests==2.11',
+        'requests==2.20.0',
         'oauth2client==3.0.0',
         'azure==2.0.0rc6',
         'boto3',
