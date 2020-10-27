@@ -3,7 +3,7 @@ requests==2.11
 azure==2.0.0rc6
 boto3==1.4.0
 google-cloud==0.21.0
-cryptography==1.4
+cryptography==3.2
 Fabric3==1.12.post1
 Jinja2==2.8
 PyYAML==3.12
