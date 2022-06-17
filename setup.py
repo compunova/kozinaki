@@ -22,7 +22,7 @@ setup(
         'azure==2.0.0rc6',
         'boto3',
         'google-cloud',
-        'cryptography==1.4',
+        'cryptography==3.3.2',
         'Fabric3',
         'Jinja2',
         'PyYAML',
